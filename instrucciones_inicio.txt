@@ -1,0 +1,52 @@
+============================================
+  iopet - INSTRUCCIONES DE INICIO
+============================================
+
+1. CONFIGURAR FIREBASE
+   - Ir a https://console.firebase.google.com
+   - Crear un proyecto o usar uno existente
+   - Ir a "Configuración del proyecto" > "Cuentas de servicio"
+   - Generar una nueva clave privada (JSON)
+   - DESCARGAR el archivo JSON y renombrarlo a:
+     firebase-service-account.json
+   - COLOCARLO en la raíz de backend/:
+     backend/firebase-service-account.json
+
+2. INICIAR BACKEND (Terminal 1)
+   cd backend
+   npm install
+   npm run dev
+   -> Servidor en http://localhost:4000
+   -> Health check: http://localhost:4000/health
+
+3. INICIAR FRONTEND (Terminal 2)
+   cd frontend
+   npm install
+   npm run dev
+   -> App en http://localhost:3000
+
+4. RUTAS DE LA API
+   GET    /api/v1/pets                    - Listar mascotas
+   POST   /api/v1/pets                    - Crear mascota
+   GET    /api/v1/pets/:id                - Obtener mascota
+   PATCH  /api/v1/pets/:id                - Actualizar mascota
+   DELETE /api/v1/pets/:id                - Eliminar mascota
+
+   GET    /api/v1/feeding-schedules        - Listar horarios
+   POST   /api/v1/feeding-schedules        - Crear horario
+   GET    /api/v1/feeding-schedules/:id    - Obtener horario
+   PATCH  /api/v1/feeding-schedules/:id    - Actualizar horario
+   DELETE /api/v1/feeding-schedules/:id    - Eliminar horario
+
+   GET    /api/v1/pets/owner/:ownerId      - Mascotas por dueño
+   GET    /api/v1/feeding-schedules/pet/:petId - Horarios por mascota
+
+5. ESTRUCTURA IMPORTANTE
+   - esp-32/        -> NO MODIFICAR (firmware existente)
+   - backend/       -> API REST
+   - frontend/      -> Next.js App Router
+   - firebase/      -> Datos semilla y reglas
+
+6. DATOS SEMILLA (opcional)
+   Los archivos en firebase/seed-data/ contienen datos de ejemplo
+   para importar manualmente en Firestore.

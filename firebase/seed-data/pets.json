@@ -1,0 +1,32 @@
+[
+  {
+    "name": "Max",
+    "species": "dog",
+    "breed": "Labrador Retriever",
+    "birthDate": "2021-03-15",
+    "weight": 28.5,
+    "ownerId": "user_001",
+    "createdAt": "2024-01-10T08:00:00.000Z",
+    "updatedAt": "2024-01-10T08:00:00.000Z"
+  },
+  {
+    "name": "Luna",
+    "species": "cat",
+    "breed": "Siamese",
+    "birthDate": "2022-07-22",
+    "weight": 4.2,
+    "ownerId": "user_001",
+    "createdAt": "2024-02-15T10:30:00.000Z",
+    "updatedAt": "2024-02-15T10:30:00.000Z"
+  },
+  {
+    "name": "Rocky",
+    "species": "dog",
+    "breed": "Beagle",
+    "birthDate": "2020-11-02",
+    "weight": 12.0,
+    "ownerId": "user_002",
+    "createdAt": "2024-03-01T14:00:00.000Z",
+    "updatedAt": "2024-03-01T14:00:00.000Z"
+  }
+]

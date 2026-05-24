@@ -1,0 +1,23 @@
+[
+  {
+    "email": "alice@example.com",
+    "displayName": "Alice Johnson",
+    "role": "owner",
+    "createdAt": "2024-01-05T12:00:00.000Z",
+    "updatedAt": "2024-01-05T12:00:00.000Z"
+  },
+  {
+    "email": "bob@example.com",
+    "displayName": "Bob Smith",
+    "role": "owner",
+    "createdAt": "2024-02-20T09:00:00.000Z",
+    "updatedAt": "2024-02-20T09:00:00.000Z"
+  },
+  {
+    "email": "admin@iopet.io",
+    "displayName": "ioPet Admin",
+    "role": "admin",
+    "createdAt": "2024-01-01T00:00:00.000Z",
+    "updatedAt": "2024-01-01T00:00:00.000Z"
+  }
+]

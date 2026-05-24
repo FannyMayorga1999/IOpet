@@ -1,0 +1,41 @@
+<!DOCTYPE html>
+<html>
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <title>SMART PET FEEDER</title>
+    <link rel="stylesheet" href="style.css">
+</head>
+
+<body>
+    <div class="header">SMART PET FEEDER<small>COMEDERO INTELIGENTE</small></div>
+    <div class="container">
+        <!-- ── BANNER ── -->
+        <div class="banner">
+            <img src="https://images.unsplash.com/photo-1583511655857-d19b40a7a54e" alt="Mascota">
+            <div class="banner-overlay"></div>
+        </div>
+        <!-- ── SECCIÓN: ACCIÓN ── -->
+        <div class="section">
+            <div class="section-label"><span>&#127858;</span> Alimentar</div>
+            <a href="/llenar" class="action-btn">SERVIR COMIDA</a>
+        </div>
+
+        <!-- ── SECCIÓN: PROGRAMAR ── -->
+        <div class="section">
+            <div class="section-label"><span>&#128197;</span> Programar horario</div>
+            <div class="form-card">
+                <form action="/agregar" method="GET">
+                    <div class="form-row">
+                        <input type="time" name="hora" class="input-time" required>
+                        <button type="submit" class="btn-submit">AGREGAR HORARIO</button>
+                    </div>
+                </form>
+            </div>
+        </div>
+
+    </div>
+</body>
+
+</html>

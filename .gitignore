@@ -1,0 +1,44 @@
+# Dependencies
+node_modules/
+
+# Build artifacts
+dist/
+.next/
+build/
+
+# Environment files
+.env
+.env.local
+.env.development
+.env.production
+
+# Firebase secrets
+firebase-service-account.json
+*-firebase-adminsdk-*
+
+# Logs
+*.log
+npm-debug.log*
+
+# OS files
+.DS_Store
+Thumbs.db
+
+# IDE
+.vscode/
+.idea/
+*.swp
+*.swo
+
+# Coverage
+coverage/
+
+# Docker
+docker-compose.override.yml
+
+# Instructions
+instrucciones_ingles.txt
+
+# Temp
+tmp/
+temp/

@@ -1,0 +1,68 @@
+<!DOCTYPE html>
+<html>
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <title>SMART PET FEEDER</title>
+    <link rel="stylesheet" href="style.css">
+</head>
+
+<body>
+    <div class="header">SMART PET FEEDER<small>COMEDERO INTELIGENTE</small></div>
+
+    <div class="container">
+
+        <!-- ── BANNER ── -->
+        <div class="banner">
+            <img src="https://images.unsplash.com/photo-1583511655857-d19b40a7a54e" alt="Mascota">
+            <div class="banner-overlay"></div>
+        </div>
+
+        <!-- ── SECCIÓN: ESTADO ── -->
+        <div class="section {0}">
+            <div class="section-label"><span>&#128240;</span> Estado del sistema</div>
+            <div class="status-row">
+                <div class="status-badge">WIFI ON</div>
+                <div class="clock">&#128338; Hora actual: <strong>{1}</strong></div>
+            </div>
+            <div class="last-feed">&#128062; &Uacute;ltima comida: --</div>
+        </div>
+
+        <!-- ── SECCIÓN: ACCIÓN ── -->
+        <div class="section">
+            <div class="section-label"><span>&#127858;</span> Alimentar</div>
+            <a href="/llenar" class="action-btn">SERVIR COMIDA</a>
+        </div>
+
+        <!-- ── SECCIÓN: PROGRAMAR ── -->
+        <div class="section">
+            <div class="section-label"><span>&#128197;</span> Programar horario</div>
+            <div class="form-card">
+                <form action="/agregar" method="GET">
+                    <div class="form-row">
+                        <input type="time" name="hora" class="input-time" required>
+                        <button type="submit" class="btn-submit">AGREGAR HORARIO</button>
+                    </div>
+                </form>
+            </div>
+            <div class="feed-status">{2}</div>
+
+            <div class="sched-head">
+                <h3>Horarios programados</h3>
+            </div>
+            <div class="sched-list">
+                {3}
+            </div>
+        </div>
+
+        <!-- ── SECCIÓN: EXPORTAR ── -->
+        <div class="section">
+            <div class="section-label"><span>&#128200;</span> Datos</div>
+            <a href="/descargar" class="export-btn">EXPORTAR HORARIOS (CSV)</a>
+        </div>
+
+    </div>
+</body>
+
+</html>

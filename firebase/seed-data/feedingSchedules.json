@@ -1,0 +1,42 @@
+[
+  {
+    "petId": "pet_001",
+    "portionSize": "200g",
+    "foodType": "Premium Dry Food",
+    "scheduledTime": "2024-11-20T08:00:00.000Z",
+    "completedTime": "2024-11-20T08:05:00.000Z",
+    "status": "completed",
+    "notes": "Ate quickly",
+    "createdAt": "2024-11-20T07:00:00.000Z",
+    "updatedAt": "2024-11-20T08:05:00.000Z"
+  },
+  {
+    "petId": "pet_001",
+    "portionSize": "200g",
+    "foodType": "Premium Dry Food",
+    "scheduledTime": "2024-11-20T20:00:00.000Z",
+    "status": "pending",
+    "createdAt": "2024-11-20T07:00:00.000Z",
+    "updatedAt": "2024-11-20T07:00:00.000Z"
+  },
+  {
+    "petId": "pet_002",
+    "portionSize": "85g",
+    "foodType": "Wet Cat Food",
+    "scheduledTime": "2024-11-20T09:00:00.000Z",
+    "completedTime": "2024-11-20T09:02:00.000Z",
+    "status": "completed",
+    "createdAt": "2024-11-20T08:00:00.000Z",
+    "updatedAt": "2024-11-20T09:02:00.000Z"
+  },
+  {
+    "petId": "pet_003",
+    "portionSize": "150g",
+    "foodType": "Grain-Free Kibble",
+    "scheduledTime": "2024-11-20T07:30:00.000Z",
+    "status": "missed",
+    "notes": "Owner was away",
+    "createdAt": "2024-11-20T06:30:00.000Z",
+    "updatedAt": "2024-11-20T12:00:00.000Z"
+  }
+]
