@@ -1,0 +1,81 @@
+{
+  "common": {
+    "appName": "ioPet",
+    "loading": "Loading...",
+    "error": "An error occurred",
+    "save": "Save",
+    "cancel": "Cancel",
+    "delete": "Delete",
+    "edit": "Edit",
+    "back": "Back",
+    "search": "Search",
+    "retry": "Retry",
+    "unknown": "Unknown"
+  },
+  "header": {
+    "toggleMenu": "Toggle menu",
+    "user": "Admin"
+  },
+  "sidebar": {
+    "dashboard": "Dashboard",
+    "pets": "Pets",
+    "history": "History"
+  },
+  "dashboard": {
+    "title": "Dashboard",
+    "welcome": "Welcome to ioPet — manage your pets and feeding schedules.",
+    "totalPets": "Total Pets",
+    "feedingsToday": "Feedings Today",
+    "pending": "Pending",
+    "completed": "Completed",
+    "pieChart": {
+      "title": "Pet Distribution",
+      "labels": {
+        "dogs": "Dogs",
+        "cats": "Cats",
+        "birds": "Birds",
+        "others": "Others"
+      }
+    },
+    "lineChart": {
+      "title": "Weekly Activity",
+      "labels": {
+        "pending": "Pending",
+        "completed": "Completed",
+        "scheduled": "Scheduled"
+      }
+    },
+    "feedingChart": {
+      "title": "Feeding Overview",
+      "completed": "Completed",
+      "pending": "Pending",
+      "missed": "Missed",
+      "total": "Total",
+      "lastDays": "Last 7 days"
+    }
+  },
+  "pets": {
+    "title": "My Pets",
+    "subtitle": "View and manage all registered pets.",
+    "addPet": "Add Pet",
+    "noPets": "No pets registered yet"
+  },
+  "history": {
+    "title": "Feeding History",
+    "subtitle": "Complete record of all feeding schedules.",
+    "noHistory": "No feeding records yet",
+    "table": {
+      "petId": "Pet ID",
+      "food": "Food",
+      "portion": "Portion",
+      "scheduled": "Scheduled",
+      "completed": "Completed",
+      "status": "Status"
+    }
+  },
+  "petCard": {
+    "weight": "Weight:",
+    "age": "Age:",
+    "birth": "Birth:"
+  }
+}

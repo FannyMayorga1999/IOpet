@@ -1,0 +1,81 @@
+{
+  "common": {
+    "appName": "ioPet",
+    "loading": "Cargando...",
+    "error": "Ocurrió un error",
+    "save": "Guardar",
+    "cancel": "Cancelar",
+    "delete": "Eliminar",
+    "edit": "Editar",
+    "back": "Volver",
+    "search": "Buscar",
+    "retry": "Reintentar",
+    "unknown": "Desconocido"
+  },
+  "header": {
+    "toggleMenu": "Abrir menú",
+    "user": "Admin"
+  },
+  "sidebar": {
+    "dashboard": "Dashboard",
+    "pets": "Mascotas",
+    "history": "Historial"
+  },
+  "dashboard": {
+    "title": "Dashboard",
+    "welcome": "Bienvenido a ioPet — gestiona tus mascotas y horarios de alimentación.",
+    "totalPets": "Total Mascotas",
+    "feedingsToday": "Comidas Hoy",
+    "pending": "Pendientes",
+    "completed": "Completadas",
+    "pieChart": {
+      "title": "Distribución por Mascotas",
+      "labels": {
+        "dogs": "Perros",
+        "cats": "Gatos",
+        "birds": "Pájaros",
+        "others": "Otros"
+      }
+    },
+    "lineChart": {
+      "title": "Proceso de Alimentación",
+      "labels": {
+        "pending": "Pendientes",
+        "completed": "Completadas",
+        "scheduled": "Programadas"
+      }
+    },
+    "feedingChart": {
+      "title": "Feeding Overview",
+      "completed": "Completadas",
+      "pending": "Pendientes",
+      "missed": "Perdidas",
+      "total": "Total",
+      "lastDays": "Últimos 7 días"
+    }
+  },
+  "pets": {
+    "title": "Mis Mascotas",
+    "subtitle": "Ver y gestionar todas las mascotas registradas.",
+    "addPet": "Agregar Mascota",
+    "noPets": "No hay mascotas registradas aún"
+  },
+  "history": {
+    "title": "Historial de Alimentación",
+    "subtitle": "Registro completo de todos los horarios de alimentación.",
+    "noHistory": "No hay registros de alimentación aún",
+    "table": {
+      "petId": "ID Mascota",
+      "food": "Comida",
+      "portion": "Porción",
+      "scheduled": "Programado",
+      "completed": "Completado",
+      "status": "Estado"
+    }
+  },
+  "petCard": {
+    "weight": "Peso:",
+    "age": "Edad:",
+    "birth": "Nacimiento:"
+  }
+}

@@ -96,3 +96,7 @@
     grid-template-columns: 1fr;
   }
 }
+
+.pets-grid__mobile {
+  grid-template-columns: 1fr;
+}

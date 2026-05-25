@@ -1,4 +1,7 @@
+'use client';
+
 import { Pet } from '@/interfaces/pet';
+import { useTranslation } from '@/hooks/useTranslation';
 
 const speciesEmoji: Record<Pet['species'], string> = {
   dog: '🐶',
@@ -9,7 +12,7 @@ const speciesEmoji: Record<Pet['species'], string> = {
 };
 
 function formatDate(iso?: string): string {
-  if (!iso) return 'Unknown';
+  if (!iso) return '';
   return new Date(iso).toLocaleDateString('es-ES', {
     year: 'numeric',
     month: 'short',
@@ -31,6 +34,8 @@ interface PetCardProps {
 }
 
 export function PetCard({ pet }: PetCardProps) {
+  const { t } = useTranslation();
+
   return (
     <div className="pet-card">
       <div className="pet-card-header">
@@ -43,14 +48,14 @@ export function PetCard({ pet }: PetCardProps) {
         <div className="pet-card-meta">
           {pet.weight && (
             <span className="pet-card-meta-item">
-              <strong>Weight:</strong> {pet.weight} kg
+              <strong>{t('petCard.weight')}</strong> {pet.weight} kg
             </span>
           )}
           <span className="pet-card-meta-item">
-            <strong>Age:</strong> {calcAge(pet.birthDate)}
+            <strong>{t('petCard.age')}</strong> {calcAge(pet.birthDate)}
           </span>
           <span className="pet-card-meta-item">
-            <strong>Birth:</strong> {formatDate(pet.birthDate)}
+            <strong>{t('petCard.birth')}</strong> {pet.birthDate ? formatDate(pet.birthDate) : t('common.unknown')}
           </span>
         </div>
       </div>

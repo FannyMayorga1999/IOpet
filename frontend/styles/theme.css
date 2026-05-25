@@ -1,25 +1,47 @@
 :root {
-  --color-bg: #023047;
-  --color-primary: #219EBC;
-  --color-accent: #FB8500;
-  --color-text: #F8F9FA;
-  --color-warning: #FFB703;
-  --color-bg-light: #0a3e5c;
-  --color-border: #1a5a7a;
-  --color-card-bg: #0a3450;
-  --color-hover: #125a78;
-  --color-danger: #e63946;
-  --color-success: #2ecc71;
-  --color-muted: #6c8a9f;
+  /* === BASE COLORS EXTRAÍDOS DEL DASHBOARD === */
+  --color-bg: #f5f3f1;
+  --color-sidebar: #ffffff;
+  --color-card-bg: #ffffff;
 
-  --font-family: 'Inter', -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif;
-  --radius-sm: 6px;
-  --radius-md: 10px;
-  --radius-lg: 16px;
-  --shadow-sm: 0 1px 3px rgba(0, 0, 0, 0.3);
-  --shadow-md: 0 4px 12px rgba(0, 0, 0, 0.4);
-  --transition: 0.2s ease;
+  /* === PRIMARY BRAND === */
+  --color-primary: #f4d21f;
+  --color-primary-dark: #d4b400;
+  --color-accent: #f59e0b;
 
+  /* === TEXT === */
+  --color-text: #1f1f1f;
+  --color-text-light: #6b7280;
+  --color-muted: #9ca3af;
+
+  /* === UI COLORS === */
+  --color-border: #e5e7eb;
+  --color-hover: #fff7cc;
+  --color-bg-light: #fafafa;
+
+  /* === STATUS === */
+  --color-success: #22c55e;
+  --color-danger: #ef4444;
+  --color-warning: #facc15;
+  --color-info: #38bdf8;
+
+  /* === SHADOWS === */
+  --shadow-sm: 0 1px 2px rgba(0, 0, 0, 0.04);
+  --shadow-md: 0 6px 18px rgba(0, 0, 0, 0.08);
+
+  /* === TYPOGRAPHY === */
+  --font-family: 'Inter', -apple-system, BlinkMacSystemFont,
+    'Segoe UI', Roboto, sans-serif;
+
+  /* === BORDER RADIUS === */
+  --radius-sm: 8px;
+  --radius-md: 14px;
+  --radius-lg: 22px;
+
+  /* === ANIMATIONS === */
+  --transition: 0.25s ease;
+
+  /* === LAYOUT === */
   --sidebar-width: 260px;
-  --header-height: 64px;
+  --header-height: 70px;
 }
