@@ -31,9 +31,11 @@ function calcAge(birthDate?: string): string {
 
 interface PetCardProps {
   pet: Pet;
+  onEdit?: (pet: Pet) => void;
+  onDelete?: (pet: Pet) => void;
 }
 
-export function PetCard({ pet }: PetCardProps) {
+export function PetCard({ pet, onEdit, onDelete }: PetCardProps) {
   const { t } = useTranslation();
 
   return (
@@ -58,6 +60,20 @@ export function PetCard({ pet }: PetCardProps) {
             <strong>{t('petCard.birth')}</strong> {pet.birthDate ? formatDate(pet.birthDate) : t('common.unknown')}
           </span>
         </div>
+        {(onEdit || onDelete) && (
+          <div className="pet-card-actions">
+            {onEdit && (
+              <button className="pet-card-btn pet-card-btn--edit" onClick={() => onEdit(pet)} title={t('common.edit')}>
+                ✏️
+              </button>
+            )}
+            {onDelete && (
+              <button className="pet-card-btn pet-card-btn--delete" onClick={() => onDelete(pet)} title={t('common.delete')}>
+                🗑️
+              </button>
+            )}
+          </div>
+        )}
       </div>
     </div>
   );

@@ -21,6 +21,11 @@ export const getSchedulesByPet = asyncWrapper(async (req: Request, res: Response
   sendSuccess(res, schedules);
 });
 
+export const getSchedulesByType = asyncWrapper(async (req: Request, res: Response) => {
+  const schedules = await feedingScheduleService.findByDistributionType(req.params.type as 'manual' | 'programmed');
+  sendSuccess(res, schedules);
+});
+
 export const createSchedule = asyncWrapper(async (req: Request, res: Response) => {
   const schedule = await feedingScheduleService.create(req.body);
   logger.info(`Feeding schedule created: ${schedule.id}`);

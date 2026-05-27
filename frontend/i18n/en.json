@@ -30,6 +30,7 @@
     "completed": "Completed",
     "pieChart": {
       "title": "Pet Distribution",
+      "subtitle": "Total pets by species",
       "labels": {
         "dogs": "Dogs",
         "cats": "Cats",
@@ -58,19 +59,59 @@
     "title": "My Pets",
     "subtitle": "View and manage all registered pets.",
     "addPet": "Add Pet",
-    "noPets": "No pets registered yet"
+    "editPet": "Edit Pet",
+    "deletePet": "Delete Pet",
+    "confirmDelete": "Are you sure you want to delete {name}? This action cannot be undone.",
+    "noPets": "No pets registered yet",
+    "form": {
+      "name": "Name",
+      "species": "Species",
+      "species_dog": "Dog",
+      "species_cat": "Cat",
+      "species_bird": "Bird",
+      "species_fish": "Fish",
+      "species_other": "Other",
+      "breed": "Breed",
+      "birthDate": "Birth Date",
+      "weight": "Weight (kg)"
+    }
   },
   "history": {
     "title": "Feeding History",
     "subtitle": "Complete record of all feeding schedules.",
     "noHistory": "No feeding records yet",
+    "noFiltered": "No records match the selected filter",
+    "addDistribution": "New Distribution",
+    "filter": {
+      "label": "Filter by type:",
+      "all": "All",
+      "manual": "Manual",
+      "programmed": "Programmed"
+    },
     "table": {
+      "pet": "Pet",
       "petId": "Pet ID",
       "food": "Food",
       "portion": "Portion",
       "scheduled": "Scheduled",
       "completed": "Completed",
+      "type": "Type",
       "status": "Status"
+    }
+  },
+  "distribution": {
+    "create": "New Distribution",
+    "form": {
+      "pet": "Pet",
+      "selectPet": "Select a pet...",
+      "type": "Distribution Type",
+      "manual": "Manual",
+      "programmed": "Programmed",
+      "portion": "Portion",
+      "foodType": "Food Type",
+      "date": "Date",
+      "time": "Time",
+      "notes": "Notes"
     }
   },
   "petCard": {

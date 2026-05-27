@@ -1,12 +1,16 @@
 'use client';
 
+import { useState, useMemo } from 'react';
 import { Layout } from '@/components/Layout/Layout';
 import { LoadingSpinner } from '@/components/ui/LoadingSpinner';
 import { EmptyState } from '@/components/ui/EmptyState';
+import { CreateDistributionModal } from '@/components/History/CreateDistributionModal';
 import { useFeedingHistory } from '@/hooks/useFeedingHistory';
+import { useCreateFeedingSchedule } from '@/hooks/useCreateFeedingSchedule';
+import { usePets } from '@/hooks/usePets';
 import { useMobile } from '@/hooks/useMobile';
 import { useTranslation } from '@/hooks/useTranslation';
-import type { FeedingSchedule } from '@/interfaces/feedingSchedule';
+import type { FeedingSchedule, DistributionType } from '@/interfaces/feedingSchedule';
 
 function formatDate(iso: string, compact?: boolean): string {
   const d = new Date(iso);
@@ -37,18 +41,74 @@ function StatusBadge({ status }: { status: FeedingSchedule['status'] }) {
   return <span className={`status-badge ${status}`}>{status}</span>;
 }
 
+function TypeBadge({ type }: { type: DistributionType }) {
+  return <span className={`type-badge ${type}`}>{type}</span>;
+}
+
 export default function HistoryPage() {
   const { data: schedules, loading, error, refetch } = useFeedingHistory();
+  const { data: pets } = usePets();
+  const { createSchedule } = useCreateFeedingSchedule();
   const isMobile = useMobile();
   const { t } = useTranslation();
   const m = (cls: string) => isMobile ? `${cls} ${cls}__mobile` : cls;
 
+  const [typeFilter, setTypeFilter] = useState<string>('all');
+  const [showCreateModal, setShowCreateModal] = useState(false);
+
+  const petMap = useMemo(() => {
+    const map = new Map<string, string>();
+    if (pets) {
+      pets.forEach((pet) => {
+        if (pet.id) map.set(pet.id, pet.name);
+      });
+    }
+    return map;
+  }, [pets]);
+
+  const filteredSchedules = useMemo(() => {
+    if (!schedules) return [];
+    if (typeFilter === 'all') return schedules;
+    return schedules.filter((s) => s.distributionType === typeFilter);
+  }, [schedules, typeFilter]);
+
+  const handleCreateDistribution = async (data: {
+    petId: string;
+    portionSize: string;
+    foodType: string;
+    scheduledTime: string;
+    distributionType: 'manual' | 'programmed';
+    notes?: string;
+  }) => {
+    const result = await createSchedule(data);
+    if (result) {
+      await refetch();
+    }
+  };
+
   return (
     <Layout>
       <div className={m('history-page')}>
-        <div>
-          <h1>{t('history.title')}</h1>
-          <p className={m('subtitle')}>{t('history.subtitle')}</p>
+        <div className="history-header">
+          <div>
+            <h1>{t('history.title')}</h1>
+            <p className={m('subtitle')}>{t('history.subtitle')}</p>
+          </div>
+          <button className="btn btn--primary" onClick={() => setShowCreateModal(true)}>
+            + {t('history.addDistribution')}
+          </button>
+        </div>
+
+        {/* Filter bar */}
+        <div className="history-filters">
+          <label className="filter-label">
+            <span>{t('history.filter.label')}</span>
+            <select value={typeFilter} onChange={(e) => setTypeFilter(e.target.value)}>
+              <option value="all">{t('history.filter.all')}</option>
+              <option value="manual">{t('history.filter.manual')}</option>
+              <option value="programmed">{t('history.filter.programmed')}</option>
+            </select>
+          </label>
         </div>
 
         <div className={m('history-table-wrapper')}>
@@ -73,24 +133,27 @@ export default function HistoryPage() {
                 {t('common.retry')}
               </button>
             </div>
-          ) : !schedules || schedules.length === 0 ? (
-            <EmptyState icon="🍽️" message={t('history.noHistory')} />
+          ) : !filteredSchedules || filteredSchedules.length === 0 ? (
+            <EmptyState icon="🍽️" message={typeFilter === 'all' ? t('history.noHistory') : t('history.noFiltered')} />
           ) : (
             <table className={m('history-table')}>
               <thead>
                 <tr className={m('history-header-row')}>
-                  <th className={m('history-th')} data-label="ID">{t('history.table.petId')}</th>
+                  <th className={m('history-th')} data-label="Pet">{t('history.table.pet')}</th>
                   <th className={m('history-th')} data-label="Food">{t('history.table.food')}</th>
                   <th className={m('history-th')} data-label="Portion">{t('history.table.portion')}</th>
                   <th className={m('history-th')} data-label="Scheduled">{t('history.table.scheduled')}</th>
                   <th className={m('history-th')} data-label="Completed">{t('history.table.completed')}</th>
+                  <th className={m('history-th')} data-label="Type">{t('history.table.type')}</th>
                   <th className={m('history-th')} data-label="Status">{t('history.table.status')}</th>
                 </tr>
               </thead>
               <tbody>
-                {schedules.map((schedule) => (
+                {filteredSchedules.map((schedule) => (
                   <tr key={schedule.id}>
-                    <td className={m('history-td')} data-label="🆔">{schedule.petId.slice(0, 8)}...</td>
+                    <td className={m('history-td')} data-label="🐾">
+                      {petMap.get(schedule.petId) || `${schedule.petId.slice(0, 8)}...`}
+                    </td>
                     <td className={m('history-td')} data-label="🍖">{schedule.foodType}</td>
                     <td className={m('history-td')} data-label="⚖️">{schedule.portionSize}</td>
                     <td className={m('history-td')} data-label="🕐">{formatDate(schedule.scheduledTime, isMobile)}</td>
@@ -98,6 +161,15 @@ export default function HistoryPage() {
                       {schedule.completedTime
                         ? formatDate(schedule.completedTime, isMobile)
                         : '—'}
+                    </td>
+                    <td className={m('history-td')} data-label="📋">
+                      {isMobile ? (
+                        <span className={`type-icon ${schedule.distributionType}`}>
+                          {schedule.distributionType === 'manual' ? '🖐️' : '⏰'}
+                        </span>
+                      ) : (
+                        <TypeBadge type={schedule.distributionType} />
+                      )}
                     </td>
                     <td className={m('history-td')} data-label="📌">
                       {isMobile ? (
@@ -113,6 +185,13 @@ export default function HistoryPage() {
           )}
         </div>
       </div>
+
+      <CreateDistributionModal
+        isOpen={showCreateModal}
+        pets={pets || []}
+        onClose={() => setShowCreateModal(false)}
+        onSubmit={handleCreateDistribution}
+      />
     </Layout>
   );
 }

@@ -41,5 +41,6 @@ export const endpoints = {
   petById: (id: string) => `/pets/${id}`,
   feedingSchedules: '/feeding-schedules',
   feedingSchedulesByPet: (petId: string) => `/feeding-schedules/pet/${petId}`,
+  feedingSchedulesByType: (type: string) => `/feeding-schedules/type/${type}`,
   feedingScheduleById: (id: string) => `/feeding-schedules/${id}`,
 };

@@ -36,6 +36,15 @@ export class FeedingScheduleService {
     return snapshot.docs.map((doc) => ({ id: doc.id, ...doc.data() } as FeedingSchedule));
   }
 
+  async findByDistributionType(type: 'manual' | 'programmed'): Promise<FeedingSchedule[]> {
+    const snapshot = await this.db
+      .collection(COLLECTION)
+      .where('distributionType', '==', type)
+      .orderBy('scheduledTime', 'desc')
+      .get();
+    return snapshot.docs.map((doc) => ({ id: doc.id, ...doc.data() } as FeedingSchedule));
+  }
+
   async create(data: CreateFeedingScheduleDTO): Promise<FeedingSchedule> {
     const now = new Date().toISOString();
     const docRef = await this.db.collection(COLLECTION).add({

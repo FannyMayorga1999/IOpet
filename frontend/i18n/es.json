@@ -30,6 +30,7 @@
     "completed": "Completadas",
     "pieChart": {
       "title": "Distribución por Mascotas",
+      "subtitle": "Total de mascotas por especie",
       "labels": {
         "dogs": "Perros",
         "cats": "Gatos",
@@ -58,19 +59,59 @@
     "title": "Mis Mascotas",
     "subtitle": "Ver y gestionar todas las mascotas registradas.",
     "addPet": "Agregar Mascota",
-    "noPets": "No hay mascotas registradas aún"
+    "editPet": "Editar Mascota",
+    "deletePet": "Eliminar Mascota",
+    "confirmDelete": "¿Estás seguro de eliminar a {name}? Esta acción no se puede deshacer.",
+    "noPets": "No hay mascotas registradas aún",
+    "form": {
+      "name": "Nombre",
+      "species": "Especie",
+      "species_dog": "Perro",
+      "species_cat": "Gato",
+      "species_bird": "Pájaro",
+      "species_fish": "Pez",
+      "species_other": "Otro",
+      "breed": "Raza",
+      "birthDate": "Fecha de Nacimiento",
+      "weight": "Peso (kg)"
+    }
   },
   "history": {
     "title": "Historial de Alimentación",
     "subtitle": "Registro completo de todos los horarios de alimentación.",
     "noHistory": "No hay registros de alimentación aún",
+    "noFiltered": "No hay registros con el filtro seleccionado",
+    "addDistribution": "Nueva Distribución",
+    "filter": {
+      "label": "Filtrar por tipo:",
+      "all": "Todas",
+      "manual": "Manual",
+      "programmed": "Programada"
+    },
     "table": {
+      "pet": "Mascota",
       "petId": "ID Mascota",
       "food": "Comida",
       "portion": "Porción",
       "scheduled": "Programado",
       "completed": "Completado",
+      "type": "Tipo",
       "status": "Estado"
+    }
+  },
+  "distribution": {
+    "create": "Nueva Distribución",
+    "form": {
+      "pet": "Mascota",
+      "selectPet": "Seleccionar mascota...",
+      "type": "Tipo de Distribución",
+      "manual": "Manual",
+      "programmed": "Programada",
+      "portion": "Porción",
+      "foodType": "Tipo de Comida",
+      "date": "Fecha",
+      "time": "Hora",
+      "notes": "Notas"
     }
   },
   "petCard": {

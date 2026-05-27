@@ -58,26 +58,26 @@ export default function DashboardPage() {
           <StatsCard
             label={t('dashboard.totalPets')}
             value={totalPets}
-            icon="🐕"
-            trend={{ value: '+12%', positive: true }}
+            icon="🐕"/* 
+            trend={{ value: '+12%', positive: true }} */
           />
           <StatsCard
             label={t('dashboard.feedingsToday')}
             value={todayFeedings}
             icon="🍽️"
-            trend={{ value: '+8%', positive: true }}
+            /* trend={{ value: '+8%', positive: true }} */
           />
           <StatsCard
             label={t('dashboard.pending')}
             value={pending}
             icon="⏳"
-            trend={{ value: '-3%', positive: false }}
+            /* trend={{ value: '-3%', positive: false }} */
           />
           <StatsCard
             label={t('dashboard.completed')}
             value={completed}
             icon="✅"
-            trend={{ value: '+18%', positive: true }}
+            /* trend={{ value: '+18%', positive: true }} */
           />
         </div>
 
@@ -86,7 +86,7 @@ export default function DashboardPage() {
           <div className="chart-card">
             <div className="chart-card-header">
               <h3>{t('dashboard.pieChart.title')}</h3>
-              <span>{t('dashboard.pieChart.labels.dogs')}</span>
+              <span>{t('dashboard.pieChart.subtitle')}</span>
             </div>
             <div className="donut-chart">
               <div className="donut">
