@@ -31,7 +31,13 @@ def registrar_ip_en_backend(esp32_ip):
         url = BACKEND_URL + "/register"
         payload = {"ip": esp32_ip}
         print("  Enviando POST a:", url, "con payload:", payload)
-        response = urequests.post(url, json=payload)
+        
+        # Serializar manualmente para maxima compatibilidad en MicroPython
+        import ujson
+        data_str = ujson.dumps(payload)
+        headers = {"Content-Type": "application/json"}
+        
+        response = urequests.post(url, data=data_str, headers=headers)
         print("  Respuesta HTTP registro:", response.status_code)
         if response.status_code == 200:
             print("  IP del ESP32 registrada exitosamente en el backend")
@@ -64,8 +70,7 @@ print("WiFi conectado")
 print("IP del ESP32:", wlan.ifconfig()[0])
 print("BACKEND_URL configurado:", BACKEND_URL)
 
-# Registrar la IP en el backend para auto-descubrimiento
-registrar_ip_en_backend(wlan.ifconfig()[0])
+# Registrar IP despues de que la red este completamente estabilizada
 
 # =========================
 # RTC + INTERNET TIME
@@ -222,6 +227,8 @@ print("http://" + wlan.ifconfig()[0])
 # TEST INICIAL DE CONEXION
 # =========================
 time.sleep(2)
+registrar_ip_en_backend(wlan.ifconfig()[0])
+time.sleep(1)
 conexion_ok = probar_conexion_backend()
 if not conexion_ok:
     print("ADVERTENCIA: El backend no responde, los horarios automaticos no funcionaran")
