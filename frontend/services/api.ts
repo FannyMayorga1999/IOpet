@@ -43,4 +43,10 @@ export const endpoints = {
   feedingSchedulesByPet: (petId: string) => `/feeding-schedules/pet/${petId}`,
   feedingSchedulesByType: (type: string) => `/feeding-schedules/type/${type}`,
   feedingScheduleById: (id: string) => `/feeding-schedules/${id}`,
+  foodCatalog: '/food-catalog',
+  foodCatalogBySpecies: (species: string) => `/food-catalog/species/${species}`,
+  foodCatalogById: (id: string) => `/food-catalog/${id}`,
+  breedCatalog: '/breed-catalog',
+  breedCatalogBySpecies: (species: string) => `/breed-catalog/species/${species}`,
+  breedCatalogById: (id: string) => `/breed-catalog/${id}`,
 };

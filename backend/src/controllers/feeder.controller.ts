@@ -6,6 +6,7 @@ import { logger } from '../utils/logger';
 import { PetService } from '../services/pet.service';
 import { FeedingScheduleService } from '../services/feedingSchedule.service';
 import { getRealtimeDatabase } from '../configs/firebase';
+import { enrichSchedulesWithPets } from '../utils/enrichSchedules';
 
 const petService = new PetService();
 const feedingScheduleService = new FeedingScheduleService();
@@ -131,49 +132,14 @@ export const scheduleFeeding = asyncWrapper(async (req: Request, res: Response) 
 export const getSchedules = asyncWrapper(async (_req: Request, res: Response) => {
   const allSchedules = await feedingScheduleService.findAll();
   const programmed = allSchedules.filter((s) => s.distributionType === 'programmed' && s.status === 'pending');
-
-  const petIds = [...new Set(programmed.map((s) => s.petId))];
-  const petsMap = new Map<string, { name: string; species: string }>();
-
-  for (const id of petIds) {
-    try {
-      const pet = await petService.findById(id);
-      petsMap.set(id, { name: pet.name, species: pet.species });
-    } catch {
-      petsMap.set(id, { name: 'Unknown', species: 'other' });
-    }
-  }
-
-  const enriched = programmed.map((s) => ({
-    ...s,
-    petName: petsMap.get(s.petId)?.name || 'Unknown',
-    petSpecies: petsMap.get(s.petId)?.species || 'other',
-  }));
-
+  const enriched = await enrichSchedulesWithPets(programmed);
   sendSuccess(res, enriched);
 });
 
 export const getFeedingHistory = asyncWrapper(async (_req: Request, res: Response) => {
   const schedules = await feedingScheduleService.findAll();
-
-  const petIds = [...new Set(schedules.map((s) => s.petId))];
-  const petsMap = new Map<string, { name: string; species: string }>();
-
-  for (const id of petIds) {
-    try {
-      const pet = await petService.findById(id);
-      petsMap.set(id, { name: pet.name, species: pet.species });
-    } catch {
-      petsMap.set(id, { name: 'Unknown', species: 'other' });
-    }
-  }
-
-  const enriched = schedules.slice(0, 20).map((s) => ({
-    ...s,
-    petName: petsMap.get(s.petId)?.name || 'Unknown',
-    petSpecies: petsMap.get(s.petId)?.species || 'other',
-  }));
-
+  const sliced = schedules.slice(0, 20);
+  const enriched = await enrichSchedulesWithPets(sliced);
   sendSuccess(res, enriched);
 });
 

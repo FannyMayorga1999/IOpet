@@ -10,7 +10,8 @@
     "back": "Volver",
     "search": "Buscar",
     "retry": "Reintentar",
-    "unknown": "Desconocido"
+    "unknown": "Desconocido",
+    "select": "Seleccionar..."
   },
   "header": {
     "toggleMenu": "Abrir menú",
@@ -19,7 +20,10 @@
   "sidebar": {
     "dashboard": "Dashboard",
     "pets": "Mascotas",
-    "history": "Historial"
+    "history": "Historial",
+    "extras": "Extras",
+    "foodCatalog": "Catálogo de Comida",
+    "breedCatalog": "Catálogo de Razas"
   },
   "dashboard": {
     "title": "Dashboard",
@@ -109,6 +113,7 @@
       "programmed": "Programada",
       "portion": "Porción",
       "foodType": "Tipo de Comida",
+      "noFood": "No hay comida disponible",
       "date": "Fecha",
       "time": "Hora",
       "notes": "Notas"

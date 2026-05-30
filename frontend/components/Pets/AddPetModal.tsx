@@ -2,6 +2,7 @@
 
 import { useState } from 'react';
 import { useTranslation } from '@/hooks/useTranslation';
+import { useBreedsBySpecies } from '@/hooks/useBreedCatalog';
 
 interface AddPetModalProps {
   isOpen: boolean;
@@ -25,6 +26,7 @@ export function AddPetModal({ isOpen, onClose, onSubmit }: AddPetModalProps) {
   const [birthDate, setBirthDate] = useState('');
   const [weight, setWeight] = useState('');
   const [submitting, setSubmitting] = useState(false);
+  const { data: breeds, loading: loadingBreeds } = useBreedsBySpecies(species);
 
   if (!isOpen) return null;
 
@@ -75,7 +77,21 @@ export function AddPetModal({ isOpen, onClose, onSubmit }: AddPetModalProps) {
           </label>
           <label className="form-field">
             <span>{t('pets.form.breed')}</span>
-            <input type="text" value={breed} onChange={(e) => setBreed(e.target.value)} />
+            {breeds && breeds.length > 0 ? (
+              <select value={breed} onChange={(e) => setBreed(e.target.value)}>
+                <option value="">{t('common.select')}</option>
+                {breeds.map((b) => (
+                  <option key={b.id} value={b.name}>{b.name}</option>
+                ))}
+              </select>
+            ) : (
+              <input
+                type="text"
+                value={breed}
+                onChange={(e) => setBreed(e.target.value)}
+                placeholder={loadingBreeds ? t('common.loading') : ''}
+              />
+            )}
           </label>
           <label className="form-field">
             <span>{t('pets.form.birthDate')}</span>

@@ -12,7 +12,7 @@ interface Translations {
 interface I18nContextValue {
   locale: Locale;
   setLocale: (locale: Locale) => void;
-  t: (key: string) => string;
+  t: (key: string, params?: Record<string, string | number>) => string;
   locales: Locale[];
 }
 
@@ -33,6 +33,11 @@ function getNestedValue(obj: Translations, path: string): string {
   return typeof current === 'string' ? current : path;
 }
 
+function interpolate(text: string, params?: Record<string, string | number>): string {
+  if (!params) return text;
+  return text.replace(/\{(\w+)\}/g, (_, key) => String(params[key] ?? `{${key}}`));
+}
+
 export function I18nProvider({ children }: { children: ReactNode }) {
   const [locale, setLocaleState] = useState<Locale>(defaultLocale);
 
@@ -49,7 +54,8 @@ export function I18nProvider({ children }: { children: ReactNode }) {
   }, []);
 
   const t = useCallback(
-    (key: string): string => getNestedValue(allMessages[locale], key),
+    (key: string, params?: Record<string, string | number>): string =>
+      interpolate(getNestedValue(allMessages[locale], key), params),
     [locale],
   );
 

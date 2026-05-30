@@ -1,0 +1,206 @@
+[
+  {
+    "id": "breed_dog_pitbull",
+    "name": "Pitbull",
+    "species": "dog",
+    "size": "large",
+    "typicalWeightMin": 25,
+    "typicalWeightMax": 55,
+    "active": true,
+    "createdAt": "2026-05-30T12:00:00.000Z",
+    "updatedAt": "2026-05-30T12:00:00.000Z"
+  },
+  {
+    "id": "breed_dog_beagle",
+    "name": "Beagle",
+    "species": "dog",
+    "size": "medium",
+    "typicalWeightMin": 9,
+    "typicalWeightMax": 14,
+    "active": true,
+    "createdAt": "2026-05-30T12:00:00.000Z",
+    "updatedAt": "2026-05-30T12:00:00.000Z"
+  },
+  {
+    "id": "breed_dog_labrador",
+    "name": "Labrador Retriever",
+    "species": "dog",
+    "size": "large",
+    "typicalWeightMin": 25,
+    "typicalWeightMax": 36,
+    "active": true,
+    "createdAt": "2026-05-30T12:00:00.000Z",
+    "updatedAt": "2026-05-30T12:00:00.000Z"
+  },
+  {
+    "id": "breed_dog_german_shepherd",
+    "name": "Pastor Alemán",
+    "species": "dog",
+    "size": "large",
+    "typicalWeightMin": 30,
+    "typicalWeightMax": 40,
+    "active": true,
+    "createdAt": "2026-05-30T12:00:00.000Z",
+    "updatedAt": "2026-05-30T12:00:00.000Z"
+  },
+  {
+    "id": "breed_dog_bulldog",
+    "name": "Bulldog",
+    "species": "dog",
+    "size": "medium",
+    "typicalWeightMin": 22,
+    "typicalWeightMax": 25,
+    "active": true,
+    "createdAt": "2026-05-30T12:00:00.000Z",
+    "updatedAt": "2026-05-30T12:00:00.000Z"
+  },
+  {
+    "id": "breed_dog_poodle",
+    "name": "Poodle",
+    "species": "dog",
+    "size": "small",
+    "typicalWeightMin": 6,
+    "typicalWeightMax": 8,
+    "active": true,
+    "createdAt": "2026-05-30T12:00:00.000Z",
+    "updatedAt": "2026-05-30T12:00:00.000Z"
+  },
+  {
+    "id": "breed_dog_rottweiler",
+    "name": "Rottweiler",
+    "species": "dog",
+    "size": "large",
+    "typicalWeightMin": 35,
+    "typicalWeightMax": 60,
+    "active": true,
+    "createdAt": "2026-05-30T12:00:00.000Z",
+    "updatedAt": "2026-05-30T12:00:00.000Z"
+  },
+  {
+    "id": "breed_dog_husky",
+    "name": "Husky Siberiano",
+    "species": "dog",
+    "size": "large",
+    "typicalWeightMin": 20,
+    "typicalWeightMax": 27,
+    "active": true,
+    "createdAt": "2026-05-30T12:00:00.000Z",
+    "updatedAt": "2026-05-30T12:00:00.000Z"
+  },
+  {
+    "id": "breed_cat_siamese",
+    "name": "Siamese",
+    "species": "cat",
+    "size": "medium",
+    "typicalWeightMin": 3,
+    "typicalWeightMax": 5,
+    "active": true,
+    "createdAt": "2026-05-30T12:00:00.000Z",
+    "updatedAt": "2026-05-30T12:00:00.000Z"
+  },
+  {
+    "id": "breed_cat_persian",
+    "name": "Persian",
+    "species": "cat",
+    "size": "medium",
+    "typicalWeightMin": 3,
+    "typicalWeightMax": 6,
+    "active": true,
+    "createdAt": "2026-05-30T12:00:00.000Z",
+    "updatedAt": "2026-05-30T12:00:00.000Z"
+  },
+  {
+    "id": "breed_cat_maine_coon",
+    "name": "Maine Coon",
+    "species": "cat",
+    "size": "large",
+    "typicalWeightMin": 5,
+    "typicalWeightMax": 11,
+    "active": true,
+    "createdAt": "2026-05-30T12:00:00.000Z",
+    "updatedAt": "2026-05-30T12:00:00.000Z"
+  },
+  {
+    "id": "breed_cat_bengal",
+    "name": "Bengalí",
+    "species": "cat",
+    "size": "medium",
+    "typicalWeightMin": 4,
+    "typicalWeightMax": 7,
+    "active": true,
+    "createdAt": "2026-05-30T12:00:00.000Z",
+    "updatedAt": "2026-05-30T12:00:00.000Z"
+  },
+  {
+    "id": "breed_bird_canary",
+    "name": "Canario",
+    "species": "bird",
+    "size": "small",
+    "active": true,
+    "createdAt": "2026-05-30T12:00:00.000Z",
+    "updatedAt": "2026-05-30T12:00:00.000Z"
+  },
+  {
+    "id": "breed_bird_parrot",
+    "name": "Loro",
+    "species": "bird",
+    "size": "medium",
+    "active": true,
+    "createdAt": "2026-05-30T12:00:00.000Z",
+    "updatedAt": "2026-05-30T12:00:00.000Z"
+  },
+  {
+    "id": "breed_bird_cockatiel",
+    "name": "Cacatúa",
+    "species": "bird",
+    "size": "small",
+    "active": true,
+    "createdAt": "2026-05-30T12:00:00.000Z",
+    "updatedAt": "2026-05-30T12:00:00.000Z"
+  },
+  {
+    "id": "breed_fish_goldfish",
+    "name": "Goldfish",
+    "species": "fish",
+    "size": "small",
+    "active": true,
+    "createdAt": "2026-05-30T12:00:00.000Z",
+    "updatedAt": "2026-05-30T12:00:00.000Z"
+  },
+  {
+    "id": "breed_fish_betta",
+    "name": "Betta",
+    "species": "fish",
+    "size": "small",
+    "active": true,
+    "createdAt": "2026-05-30T12:00:00.000Z",
+    "updatedAt": "2026-05-30T12:00:00.000Z"
+  },
+  {
+    "id": "breed_fish_tropical",
+    "name": "Tropical",
+    "species": "fish",
+    "size": "small",
+    "active": true,
+    "createdAt": "2026-05-30T12:00:00.000Z",
+    "updatedAt": "2026-05-30T12:00:00.000Z"
+  },
+  {
+    "id": "breed_other_hamster",
+    "name": "Hámster",
+    "species": "other",
+    "size": "small",
+    "active": true,
+    "createdAt": "2026-05-30T12:00:00.000Z",
+    "updatedAt": "2026-05-30T12:00:00.000Z"
+  },
+  {
+    "id": "breed_other_rabbit",
+    "name": "Conejo",
+    "species": "other",
+    "size": "small",
+    "active": true,
+    "createdAt": "2026-05-30T12:00:00.000Z",
+    "updatedAt": "2026-05-30T12:00:00.000Z"
+  }
+]

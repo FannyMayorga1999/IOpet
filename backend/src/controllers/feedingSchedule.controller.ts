@@ -3,22 +3,26 @@ import { FeedingScheduleService } from '../services/feedingSchedule.service';
 import { asyncWrapper } from '../middlewares/asyncWrapper';
 import { sendSuccess, sendCreated } from '../utils/response';
 import { logger } from '../utils/logger';
+import { enrichSchedulesWithPets } from '../utils/enrichSchedules';
 
 const feedingScheduleService = new FeedingScheduleService();
 
 export const getSchedules = asyncWrapper(async (_req: Request, res: Response) => {
   const schedules = await feedingScheduleService.findAll();
-  sendSuccess(res, schedules);
+  const enriched = await enrichSchedulesWithPets(schedules);
+  sendSuccess(res, enriched);
 });
 
 export const getScheduleById = asyncWrapper(async (req: Request, res: Response) => {
   const schedule = await feedingScheduleService.findById(req.params.id);
-  sendSuccess(res, schedule);
+  const [enriched] = await enrichSchedulesWithPets([schedule]);
+  sendSuccess(res, enriched);
 });
 
 export const getSchedulesByPet = asyncWrapper(async (req: Request, res: Response) => {
   const schedules = await feedingScheduleService.findByPet(req.params.petId);
-  sendSuccess(res, schedules);
+  const enriched = await enrichSchedulesWithPets(schedules);
+  sendSuccess(res, enriched);
 });
 
 export const getSchedulesByType = asyncWrapper(async (req: Request, res: Response) => {

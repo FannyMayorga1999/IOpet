@@ -361,6 +361,7 @@
           <span class="emoji" id="selEmoji">&#128062;</span>
           <div>
             <div class="name" id="selName">---</div>
+            <div class="hint" id="selBreed" style="font-size:0.75rem;opacity:0.7"></div>
             <div class="hint">Esta mascota recibirá la comida</div>
           </div>
         </div>
@@ -446,6 +447,8 @@
     const API = '/api/v1';
     let selectedPetId = null;
     let pets = [];
+    let foodCatalog = [];
+    let breedCatalog = [];
     const speciesEmoji = { dog:'🐶', cat:'🐱', bird:'🐦', fish:'🐟', other:'🐾' };
 
     function $(id) { return document.getElementById(id); }
@@ -520,6 +523,62 @@
       });
     }
 
+    function populateFoodSelect(selectId, species) {
+      const sel = $(selectId);
+      const filtered = foodCatalog.filter(f => f.suitableFor.includes(species));
+      sel.innerHTML = filtered.map(f =>
+        `<option value="${f.name}">${f.name}${f.brand ? ' (' + f.brand + ')' : ''}</option>`
+      ).join('');
+    }
+
+    function populatePortionSelect(selectId, foodName) {
+      const sel = $(selectId);
+      const food = foodCatalog.find(f => f.name === foodName);
+      if (food && food.portionOptions.length) {
+        sel.innerHTML = food.portionOptions.map(p =>
+          `<option value="${p}">${p}</option>`
+        ).join('');
+      }
+    }
+
+    async function loadFoodCatalog(species) {
+      try {
+        const r = await fetch(API + '/food-catalog/species/' + species);
+        const d = await r.json();
+        foodCatalog = d.data || [];
+      } catch {
+        foodCatalog = [];
+      }
+      populateFoodSelect('foodTypeSelect', species);
+      populateFoodSelect('scheduleFoodType', species);
+      populatePortionSelect('portionSelect', $('foodTypeSelect').value);
+      populatePortionSelect('schedulePortion', $('scheduleFoodType').value);
+    }
+
+    async function loadBreedCatalog(species) {
+      try {
+        const r = await fetch(API + '/breed-catalog/species/' + species);
+        const d = await r.json();
+        breedCatalog = d.data || [];
+      } catch {
+        breedCatalog = [];
+      }
+    }
+
+    function showSelectedBreed(pet) {
+      const breedEl = $('selBreed');
+      if (pet.breed && breedCatalog.length > 0) {
+        const match = breedCatalog.find(b => b.name === pet.breed);
+        breedEl.textContent = match ? `🐾 ${match.name}` : `🐾 ${pet.breed}`;
+        breedEl.style.display = '';
+      } else if (pet.breed) {
+        breedEl.textContent = `🐾 ${pet.breed}`;
+        breedEl.style.display = '';
+      } else {
+        breedEl.style.display = 'none';
+      }
+    }
+
     function selectPet(id) {
       selectedPetId = id;
       renderPets();
@@ -531,8 +590,18 @@
         $('feedBtn').disabled = false;
         $('selEmoji').textContent = speciesEmoji[pet.species] || '🐾';
         $('selName').textContent = pet.name;
+        loadFoodCatalog(pet.species);
+        loadBreedCatalog(pet.species);
+        showSelectedBreed(pet);
       }
     }
+
+    $('foodTypeSelect').addEventListener('change', () => {
+      populatePortionSelect('portionSelect', $('foodTypeSelect').value);
+    });
+    $('scheduleFoodType').addEventListener('change', () => {
+      populatePortionSelect('schedulePortion', $('scheduleFoodType').value);
+    });
 
     $('feedBtn').addEventListener('click', async () => {
       if (!selectedPetId) return;

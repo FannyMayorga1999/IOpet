@@ -4,6 +4,8 @@ export type DistributionType = 'manual' | 'programmed';
 export interface FeedingSchedule {
   id?: string;
   petId: string;
+  petName?: string;
+  petSpecies?: string;
   portionSize: string;
   foodType: string;
   scheduledTime: string;

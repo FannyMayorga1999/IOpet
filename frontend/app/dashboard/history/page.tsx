@@ -37,6 +37,8 @@ const statusIcon: Record<FeedingSchedule['status'], string> = {
   missed: '❌',
 };
 
+const speciesEmoji: Record<string, string> = { dog:'🐶', cat:'🐱', bird:'🐦', fish:'🐟', other:'🐾' };
+
 function StatusBadge({ status }: { status: FeedingSchedule['status'] }) {
   return <span className={`status-badge ${status}`}>{status}</span>;
 }
@@ -152,7 +154,9 @@ export default function HistoryPage() {
                 {filteredSchedules.map((schedule) => (
                   <tr key={schedule.id}>
                     <td className={m('history-td')} data-label="🐾">
-                      {petMap.get(schedule.petId) || `${schedule.petId.slice(0, 8)}...`}
+                      {speciesEmoji[schedule.petSpecies || 'other'] || '🐾'}
+                      {' '}
+                      {schedule.petName || petMap.get(schedule.petId) || 'Desconocida'}
                     </td>
                     <td className={m('history-td')} data-label="🍖">{schedule.foodType}</td>
                     <td className={m('history-td')} data-label="⚖️">{schedule.portionSize}</td>

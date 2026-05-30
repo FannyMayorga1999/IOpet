@@ -12,6 +12,8 @@ const collections: SeedCollection[] = [
   { name: 'feedingSchedules', file: 'feedingSchedules.json' },
   { name: 'users', file: 'users.json' },
   { name: 'notifications', file: 'notifications.json' },
+  { name: 'foodCatalog', file: 'foodCatalog.json' },
+  { name: 'breedCatalog', file: 'breedCatalog.json' },
 ];
 
 async function seedCollection(
@@ -32,7 +34,12 @@ async function seedCollection(
 
   let count = 0;
   for (const doc of data) {
-    await db.collection(collection.name).add(doc as FirebaseFirestore.DocumentData);
+    const id = (doc as any).id || undefined;
+    const docRef = id
+      ? db.collection(collection.name).doc(id)
+      : db.collection(collection.name).doc();
+    const { id: _id, ...docData } = doc as any;
+    await docRef.set(docData as FirebaseFirestore.DocumentData);
     count++;
   }
 

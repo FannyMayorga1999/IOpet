@@ -1,0 +1,110 @@
+[
+  {
+    "id": "food_dog_premium",
+    "name": "Premium Dry Food",
+    "brand": "Royal Canin",
+    "category": "premium",
+    "suitableFor": ["dog"],
+    "description": "Alimento premium seco para perros de todas las razas",
+    "portionOptions": ["100g", "200g", "300g", "400g"],
+    "active": true,
+    "createdAt": "2026-05-30T12:00:00.000Z",
+    "updatedAt": "2026-05-30T12:00:00.000Z"
+  },
+  {
+    "id": "food_dog_kibble",
+    "name": "Standard Kibble",
+    "brand": "Purina",
+    "category": "kibble",
+    "suitableFor": ["dog"],
+    "description": "Croquetas estándar para perros",
+    "portionOptions": ["50g", "100g", "150g", "200g"],
+    "active": true,
+    "createdAt": "2026-05-30T12:00:00.000Z",
+    "updatedAt": "2026-05-30T12:00:00.000Z"
+  },
+  {
+    "id": "food_dog_wet",
+    "name": "Wet Dog Food",
+    "brand": "Pedigree",
+    "category": "wet",
+    "suitableFor": ["dog"],
+    "description": "Comida húmeda para perros",
+    "portionOptions": ["100g", "200g", "300g"],
+    "active": true,
+    "createdAt": "2026-05-30T12:00:00.000Z",
+    "updatedAt": "2026-05-30T12:00:00.000Z"
+  },
+  {
+    "id": "food_cat_premium",
+    "name": "Premium Cat Food",
+    "brand": "Royal Canin",
+    "category": "premium",
+    "suitableFor": ["cat"],
+    "description": "Alimento premium para gatos",
+    "portionOptions": ["50g", "85g", "100g"],
+    "active": true,
+    "createdAt": "2026-05-30T12:00:00.000Z",
+    "updatedAt": "2026-05-30T12:00:00.000Z"
+  },
+  {
+    "id": "food_cat_wet",
+    "name": "Wet Cat Food",
+    "brand": "Whiskas",
+    "category": "wet",
+    "suitableFor": ["cat"],
+    "description": "Comida húmeda para gatos",
+    "portionOptions": ["50g", "85g", "100g"],
+    "active": true,
+    "createdAt": "2026-05-30T12:00:00.000Z",
+    "updatedAt": "2026-05-30T12:00:00.000Z"
+  },
+  {
+    "id": "food_cat_kibble",
+    "name": "Cat Kibble",
+    "brand": "Purina",
+    "category": "kibble",
+    "suitableFor": ["cat"],
+    "description": "Croquetas para gatos",
+    "portionOptions": ["30g", "50g", "85g"],
+    "active": true,
+    "createdAt": "2026-05-30T12:00:00.000Z",
+    "updatedAt": "2026-05-30T12:00:00.000Z"
+  },
+  {
+    "id": "food_bird_seed",
+    "name": "Bird Seed Mix",
+    "brand": "Versele-Laga",
+    "category": "kibble",
+    "suitableFor": ["bird"],
+    "description": "Mezcla de semillas para aves",
+    "portionOptions": ["10g", "20g", "30g"],
+    "active": true,
+    "createdAt": "2026-05-30T12:00:00.000Z",
+    "updatedAt": "2026-05-30T12:00:00.000Z"
+  },
+  {
+    "id": "food_fish_flakes",
+    "name": "Fish Flakes",
+    "brand": "Tetra",
+    "category": "kibble",
+    "suitableFor": ["fish"],
+    "description": "Hojuelas para peces",
+    "portionOptions": ["5g", "10g", "15g"],
+    "active": true,
+    "createdAt": "2026-05-30T12:00:00.000Z",
+    "updatedAt": "2026-05-30T12:00:00.000Z"
+  },
+  {
+    "id": "food_balanced",
+    "name": "Balanced All-in-One",
+    "brand": "Acana",
+    "category": "balanced",
+    "suitableFor": ["dog", "cat"],
+    "description": "Alimento balanceado para perros y gatos",
+    "portionOptions": ["50g", "100g", "150g", "200g"],
+    "active": true,
+    "createdAt": "2026-05-30T12:00:00.000Z",
+    "updatedAt": "2026-05-30T12:00:00.000Z"
+  }
+]

@@ -10,7 +10,8 @@
     "back": "Back",
     "search": "Search",
     "retry": "Retry",
-    "unknown": "Unknown"
+    "unknown": "Unknown",
+    "select": "Select..."
   },
   "header": {
     "toggleMenu": "Toggle menu",
@@ -19,7 +20,10 @@
   "sidebar": {
     "dashboard": "Dashboard",
     "pets": "Pets",
-    "history": "History"
+    "history": "History",
+    "extras": "Extras",
+    "foodCatalog": "Food Catalog",
+    "breedCatalog": "Breed Catalog"
   },
   "dashboard": {
     "title": "Dashboard",
@@ -109,6 +113,7 @@
       "programmed": "Programmed",
       "portion": "Portion",
       "foodType": "Food Type",
+      "noFood": "No food available",
       "date": "Date",
       "time": "Time",
       "notes": "Notes"

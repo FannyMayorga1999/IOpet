@@ -1,8 +1,10 @@
 'use client';
 
-import { useState, useEffect } from 'react';
+import { useState, useEffect, useMemo } from 'react';
 import { Pet } from '@/interfaces/pet';
+import { FoodCatalog } from '@/interfaces/foodCatalog';
 import { useTranslation } from '@/hooks/useTranslation';
+import { api, endpoints } from '@/services/api';
 
 interface CreateDistributionModalProps {
   isOpen: boolean;
@@ -28,6 +30,44 @@ export function CreateDistributionModal({ isOpen, pets, onClose, onSubmit }: Cre
   const [scheduledTime, setScheduledTime] = useState('');
   const [notes, setNotes] = useState('');
   const [submitting, setSubmitting] = useState(false);
+  const [foodCatalog, setFoodCatalog] = useState<FoodCatalog[]>([]);
+  const [loadingFood, setLoadingFood] = useState(false);
+
+  const selectedPet = useMemo(() => pets.find(p => p.id === petId), [pets, petId]);
+
+  const selectedFood = useMemo(
+    () => foodCatalog.find(f => f.name === foodType),
+    [foodCatalog, foodType]
+  );
+
+  const portionOptions = useMemo(
+    () => selectedFood?.portionOptions || [],
+    [selectedFood]
+  );
+
+  useEffect(() => {
+    if (!petId || !selectedPet || !isOpen) return;
+    setLoadingFood(true);
+    setFoodType('');
+    setPortionSize('');
+    api.get<FoodCatalog[]>(endpoints.foodCatalogBySpecies(selectedPet.species))
+      .then((res) => {
+        if (res.success && res.data) {
+          setFoodCatalog(res.data);
+          if (res.data.length > 0) {
+            setFoodType(res.data[0].name);
+          }
+        }
+      })
+      .catch(() => setFoodCatalog([]))
+      .finally(() => setLoadingFood(false));
+  }, [petId, selectedPet, isOpen]);
+
+  useEffect(() => {
+    if (portionOptions.length > 0 && !portionOptions.includes(portionSize)) {
+      setPortionSize(portionOptions[0]);
+    }
+  }, [portionOptions, portionSize]);
 
   useEffect(() => {
     if (isOpen && pets.length > 0 && !petId) {
@@ -97,12 +137,32 @@ export function CreateDistributionModal({ isOpen, pets, onClose, onSubmit }: Cre
             </select>
           </label>
           <label className="form-field">
-            <span>{t('distribution.form.portion')}</span>
-            <input type="text" value={portionSize} onChange={(e) => setPortionSize(e.target.value)} placeholder="e.g. 200g" required />
+            <span>{t('distribution.form.foodType')}</span>
+            <select value={foodType} onChange={(e) => setFoodType(e.target.value)} required disabled={loadingFood || foodCatalog.length === 0}>
+              {loadingFood ? (
+                <option value="">{t('common.loading')}</option>
+              ) : foodCatalog.length === 0 ? (
+                <option value="">{t('distribution.form.noFood')}</option>
+              ) : (
+                foodCatalog.map((food) => (
+                  <option key={food.id} value={food.name}>
+                    {food.name}{food.brand ? ` (${food.brand})` : ''}
+                  </option>
+                ))
+              )}
+            </select>
           </label>
           <label className="form-field">
-            <span>{t('distribution.form.foodType')}</span>
-            <input type="text" value={foodType} onChange={(e) => setFoodType(e.target.value)} placeholder="e.g. Premium Dry Food" required />
+            <span>{t('distribution.form.portion')}</span>
+            {portionOptions.length > 0 ? (
+              <select value={portionSize} onChange={(e) => setPortionSize(e.target.value)} required>
+                {portionOptions.map((opt) => (
+                  <option key={opt} value={opt}>{opt}</option>
+                ))}
+              </select>
+            ) : (
+              <input type="text" value={portionSize} onChange={(e) => setPortionSize(e.target.value)} placeholder="e.g. 200g" required />
+            )}
           </label>
           <div className="form-row">
             <label className="form-field">
