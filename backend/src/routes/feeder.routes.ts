@@ -6,6 +6,7 @@ import {
   getFeedingHistory,
   getSchedules,
   completeSchedule,
+  registerFeeder,
 } from '../controllers/feeder.controller';
 import { validateBody } from '../middlewares/validation';
 
@@ -17,5 +18,6 @@ router.post('/feed-now', validateBody({ petId: 'string' }), feedNow);
 router.post('/schedule', validateBody({ petId: 'string', scheduledTime: 'string' }), scheduleFeeding);
 router.get('/history', getFeedingHistory);
 router.post('/complete-schedule', validateBody({ scheduleId: 'string' }), completeSchedule);
+router.post('/register', validateBody({ ip: 'string' }), registerFeeder);
 
 export default router;

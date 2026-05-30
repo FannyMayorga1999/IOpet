@@ -23,6 +23,23 @@ BACKEND_URL = "http://{}:{}/api/v1/feeder".format(BACKEND_IP, BACKEND_PORT)
 POLL_INTERVAL = 30  # segundos entre consultas de horarios
 
 # =========================
+# REGISTRO DE IP EN BACKEND
+# =========================
+def registrar_ip_en_backend(esp32_ip):
+    print("Registrando IP local en el backend...")
+    try:
+        url = BACKEND_URL + "/register"
+        payload = {"ip": esp32_ip}
+        print("  Enviando POST a:", url, "con payload:", payload)
+        response = urequests.post(url, json=payload)
+        print("  Respuesta HTTP registro:", response.status_code)
+        if response.status_code == 200:
+            print("  IP del ESP32 registrada exitosamente en el backend")
+        response.close()
+    except Exception as e:
+        print("  ERROR al registrar la IP en el backend:", e)
+
+# =========================
 # WIFI
 # =========================
 ssid = "Pixel 9 FEMS"
@@ -46,6 +63,9 @@ if not wlan.isconnected():
 print("WiFi conectado")
 print("IP del ESP32:", wlan.ifconfig()[0])
 print("BACKEND_URL configurado:", BACKEND_URL)
+
+# Registrar la IP en el backend para auto-descubrimiento
+registrar_ip_en_backend(wlan.ifconfig()[0])
 
 # =========================
 # RTC + INTERNET TIME
