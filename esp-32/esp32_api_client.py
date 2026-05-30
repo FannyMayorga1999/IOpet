@@ -76,12 +76,8 @@ ESP32_IP = wlan.ifconfig()[0]
 print("IP del ESP32:", ESP32_IP)
 print("BACKEND_URL configurado:", BACKEND_URL)
 
-<<<<<<< HEAD
-# Registrar la IP en el backend para auto-descubrimiento
+# Registrar la IP en el backend
 registrar_ip_en_backend(ESP32_IP)
-=======
-# Registrar IP despues de que la red este completamente estabilizada
->>>>>>> e4dbb8a736ecfad02ce4721c4a9ddf72a946aa2e
 
 # =========================
 # RTC + INTERNET TIME
@@ -232,13 +228,13 @@ tcp_socket.listen(5)
 tcp_socket.settimeout(0.1)
 
 print("Servidor web iniciado")
-print("http://" + wlan.ifconfig()[0])
+print("http://" + ESP32_IP)
 
 # =========================
 # TEST INICIAL DE CONEXION
 # =========================
 time.sleep(2)
-registrar_ip_en_backend(wlan.ifconfig()[0])
+registrar_ip_en_backend(ESP32_IP)
 time.sleep(1)
 conexion_ok = probar_conexion_backend()
 if not conexion_ok:
@@ -286,16 +282,10 @@ while True:
                 "ip": ESP32_IP
             }
             status_json = ujson.dumps(status_obj)
-<<<<<<< HEAD
-            conn.send("HTTP/1.1 200 OK\n")
-            conn.send("Content-Type: application/json\n")
-            conn.send("Access-Control-Allow-Origin: *\n")
-            conn.send("Connection: close\n\n")
-=======
             conn.send("HTTP/1.1 200 OK\r\n")
             conn.send("Content-Type: application/json\r\n")
+            conn.send("Access-Control-Allow-Origin: *\r\n")
             conn.send("Connection: close\r\n\r\n")
->>>>>>> e4dbb8a736ecfad02ce4721c4a9ddf72a946aa2e
             conn.sendall(status_json)
             conn.close()
             continue
