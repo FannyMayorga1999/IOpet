@@ -31,33 +31,41 @@ function discoverEsp32Ip(req: Request) {
   }
 }
 
-function esp32Get(path: string): Promise<{ ok: boolean; data?: string }> {
-  return new Promise((resolve) => {
+async function esp32Get(path: string): Promise<{ ok: boolean; data?: string }> {
+  try {
     console.log(`Attempting to reach ESP32 at http://${getESP32IP()}${path}...`);
-    const req = http.get(`http://${getESP32IP()}${path}`, (res) => {
-      let body = '';
-      res.on('data', (chunk) => { body += chunk; });
-      res.on('end', () => {
-        resolve({ ok: res.statusCode === 200, data: body });
-      });
+    const controller = new AbortController();
+    const id = setTimeout(() => controller.abort(), 5000);
+    
+    const response = await fetch(`http://${getESP32IP()}${path}`, {
+      signal: controller.signal
     });
-    req.on('error', () => resolve({ ok: false }));
-    req.setTimeout(5000, () => { req.destroy(); resolve({ ok: false }); });
-  });
+    clearTimeout(id);
+    
+    const text = await response.text();
+    return { ok: response.status === 200, data: text };
+  } catch (err) {
+    logger.error(`Error reaching ESP32:`, err);
+    return { ok: false };
+  }
 }
 
-function esp32GetLong(path: string): Promise<{ ok: boolean; data?: string }> {
-  return new Promise((resolve) => {
-    const req = http.get(`http://${getESP32IP()}${path}`, (res) => {
-      let body = '';
-      res.on('data', (chunk) => { body += chunk; });
-      res.on('end', () => {
-        resolve({ ok: res.statusCode === 200, data: body });
-      });
+async function esp32GetLong(path: string): Promise<{ ok: boolean; data?: string }> {
+  try {
+    const controller = new AbortController();
+    const id = setTimeout(() => controller.abort(), 15000);
+    
+    const response = await fetch(`http://${getESP32IP()}${path}`, {
+      signal: controller.signal
     });
-    req.on('error', () => resolve({ ok: false }));
-    req.setTimeout(15000, () => { req.destroy(); resolve({ ok: false }); });
-  });
+    clearTimeout(id);
+    
+    const text = await response.text();
+    return { ok: response.status === 200, data: text };
+  } catch (err) {
+    logger.error(`Error reaching ESP32 (long):`, err);
+    return { ok: false };
+  }
 }
 
 export const getFeederStatus = asyncWrapper(async (_req: Request, res: Response) => {

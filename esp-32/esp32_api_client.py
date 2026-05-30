@@ -269,9 +269,9 @@ while True:
                 "ip": ip
             }
             status_json = ujson.dumps(status_obj)
-            conn.send("HTTP/1.1 200 OK\n")
-            conn.send("Content-Type: application/json\n")
-            conn.send("Connection: close\n\n")
+            conn.send("HTTP/1.1 200 OK\r\n")
+            conn.send("Content-Type: application/json\r\n")
+            conn.send("Connection: close\r\n\r\n")
             conn.sendall(status_json)
             conn.close()
             continue
@@ -281,9 +281,9 @@ while True:
         # =========================
         if "GET /llenar" in request:
             activar_dispensador("API")
-            conn.send("HTTP/1.1 200 OK\n")
-            conn.send("Content-Type: application/json\n")
-            conn.send("Connection: close\n\n")
+            conn.send("HTTP/1.1 200 OK\r\n")
+            conn.send("Content-Type: application/json\r\n")
+            conn.send("Connection: close\r\n\r\n")
             conn.sendall('{"result":"ok"}')
             conn.close()
             continue
@@ -291,8 +291,8 @@ while True:
         # =========================
         # 404 PARA TODO LO DEMAS
         # =========================
-        conn.send("HTTP/1.1 404 Not Found\n")
-        conn.send("Connection: close\n\n")
+        conn.send("HTTP/1.1 404 Not Found\r\n")
+        conn.send("Connection: close\r\n\r\n")
         conn.close()
 
     except Exception as e:
