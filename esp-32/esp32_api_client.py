@@ -55,6 +55,11 @@ print("Conectando a WiFi:", ssid)
 
 wlan = network.WLAN(network.STA_IF)
 wlan.active(True)
+try:
+    wlan.disconnect()
+except:
+    pass
+time.sleep(0.5)
 wlan.connect(ssid, password)
 
 timeout = 20
