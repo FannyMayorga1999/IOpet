@@ -31,7 +31,13 @@ def registrar_ip_en_backend(esp32_ip):
         url = BACKEND_URL + "/register"
         payload = {"ip": esp32_ip}
         print("  Enviando POST a:", url, "con payload:", payload)
-        response = urequests.post(url, json=payload)
+        
+        # Serializar manualmente para maxima compatibilidad en MicroPython
+        import ujson
+        data_str = ujson.dumps(payload)
+        headers = {"Content-Type": "application/json"}
+        
+        response = urequests.post(url, data=data_str, headers=headers)
         print("  Respuesta HTTP registro:", response.status_code)
         if response.status_code == 200:
             print("  IP del ESP32 registrada exitosamente en el backend")
@@ -49,6 +55,11 @@ print("Conectando a WiFi:", ssid)
 
 wlan = network.WLAN(network.STA_IF)
 wlan.active(True)
+try:
+    wlan.disconnect()
+except:
+    pass
+time.sleep(0.5)
 wlan.connect(ssid, password)
 
 timeout = 20
@@ -65,8 +76,12 @@ ESP32_IP = wlan.ifconfig()[0]
 print("IP del ESP32:", ESP32_IP)
 print("BACKEND_URL configurado:", BACKEND_URL)
 
+<<<<<<< HEAD
 # Registrar la IP en el backend para auto-descubrimiento
 registrar_ip_en_backend(ESP32_IP)
+=======
+# Registrar IP despues de que la red este completamente estabilizada
+>>>>>>> e4dbb8a736ecfad02ce4721c4a9ddf72a946aa2e
 
 # =========================
 # RTC + INTERNET TIME
@@ -223,6 +238,8 @@ print("http://" + wlan.ifconfig()[0])
 # TEST INICIAL DE CONEXION
 # =========================
 time.sleep(2)
+registrar_ip_en_backend(wlan.ifconfig()[0])
+time.sleep(1)
 conexion_ok = probar_conexion_backend()
 if not conexion_ok:
     print("ADVERTENCIA: El backend no responde, los horarios automaticos no funcionaran")
@@ -269,10 +286,16 @@ while True:
                 "ip": ESP32_IP
             }
             status_json = ujson.dumps(status_obj)
+<<<<<<< HEAD
             conn.send("HTTP/1.1 200 OK\n")
             conn.send("Content-Type: application/json\n")
             conn.send("Access-Control-Allow-Origin: *\n")
             conn.send("Connection: close\n\n")
+=======
+            conn.send("HTTP/1.1 200 OK\r\n")
+            conn.send("Content-Type: application/json\r\n")
+            conn.send("Connection: close\r\n\r\n")
+>>>>>>> e4dbb8a736ecfad02ce4721c4a9ddf72a946aa2e
             conn.sendall(status_json)
             conn.close()
             continue
@@ -282,9 +305,9 @@ while True:
         # =========================
         if "GET /llenar" in request:
             activar_dispensador("API")
-            conn.send("HTTP/1.1 200 OK\n")
-            conn.send("Content-Type: application/json\n")
-            conn.send("Connection: close\n\n")
+            conn.send("HTTP/1.1 200 OK\r\n")
+            conn.send("Content-Type: application/json\r\n")
+            conn.send("Connection: close\r\n\r\n")
             conn.sendall('{"result":"ok"}')
             conn.close()
             continue
@@ -292,8 +315,8 @@ while True:
         # =========================
         # 404 PARA TODO LO DEMAS
         # =========================
-        conn.send("HTTP/1.1 404 Not Found\n")
-        conn.send("Connection: close\n\n")
+        conn.send("HTTP/1.1 404 Not Found\r\n")
+        conn.send("Connection: close\r\n\r\n")
         conn.close()
 
     except Exception as e:
