@@ -17,7 +17,7 @@ from machine import Pin, RTC
 # CONFIGURACION BACKEND
 # =========================
 # CAMBIA ESTA IP por la IP del servidor donde corre el backend Express
-BACKEND_IP = "10.18.51.9"
+BACKEND_IP = "10.118.116.9"
 BACKEND_PORT = 4000
 BACKEND_URL = "http://{}:{}/api/v1/feeder".format(BACKEND_IP, BACKEND_PORT)
 POLL_INTERVAL = 30  # segundos entre consultas de horarios
@@ -61,11 +61,12 @@ if not wlan.isconnected():
     raise SystemExit(1)
 
 print("WiFi conectado")
-print("IP del ESP32:", wlan.ifconfig()[0])
+ESP32_IP = wlan.ifconfig()[0]
+print("IP del ESP32:", ESP32_IP)
 print("BACKEND_URL configurado:", BACKEND_URL)
 
 # Registrar la IP en el backend para auto-descubrimiento
-registrar_ip_en_backend(wlan.ifconfig()[0])
+registrar_ip_en_backend(ESP32_IP)
 
 # =========================
 # RTC + INTERNET TIME
@@ -260,17 +261,17 @@ while True:
         # STATUS (JSON)
         # =========================
         if "GET /status" in request:
-            ip = wlan.ifconfig()[0] if wlan.isconnected() else "0.0.0.0"
             status_obj = {
                 "status": estado,
                 "currentTime": obtener_hora(),
                 "lastFeeding": "--",
                 "wifi": wlan.isconnected(),
-                "ip": ip
+                "ip": ESP32_IP
             }
             status_json = ujson.dumps(status_obj)
             conn.send("HTTP/1.1 200 OK\n")
             conn.send("Content-Type: application/json\n")
+            conn.send("Access-Control-Allow-Origin: *\n")
             conn.send("Connection: close\n\n")
             conn.sendall(status_json)
             conn.close()
