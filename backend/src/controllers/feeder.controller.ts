@@ -10,8 +10,25 @@ import { enrichSchedulesWithPets } from '../utils/enrichSchedules';
 
 const petService = new PetService();
 const feedingScheduleService = new FeedingScheduleService();
+let activeEsp32Ip: string = process.env.ESP32_IP || '192.168.4.1';
+
 function getESP32IP(): string {
-  return process.env.ESP32_IP || '192.168.4.1';
+  return activeEsp32Ip;
+}
+
+function discoverEsp32Ip(req: Request) {
+  let remoteIp = req.ip || req.socket.remoteAddress;
+  if (remoteIp) {
+    if (remoteIp.startsWith('::ffff:')) {
+      remoteIp = remoteIp.substring(7);
+    }
+    if (remoteIp !== '127.0.0.1' && remoteIp !== '::1') {
+      if (activeEsp32Ip !== remoteIp) {
+        activeEsp32Ip = remoteIp;
+        logger.info(`[Auto-Discovery] Detected and updated ESP32 IP to: ${activeEsp32Ip}`);
+      }
+    }
+  }
 }
 
 function esp32Get(path: string): Promise<{ ok: boolean; data?: string }> {
@@ -130,6 +147,7 @@ export const scheduleFeeding = asyncWrapper(async (req: Request, res: Response) 
 });
 
 export const getSchedules = asyncWrapper(async (_req: Request, res: Response) => {
+  discoverEsp32Ip(_req);
   const allSchedules = await feedingScheduleService.findAll();
   const programmed = allSchedules.filter((s) => s.distributionType === 'programmed' && s.status === 'pending');
   const enriched = await enrichSchedulesWithPets(programmed);
@@ -144,6 +162,7 @@ export const getFeedingHistory = asyncWrapper(async (_req: Request, res: Respons
 });
 
 export const completeSchedule = asyncWrapper(async (req: Request, res: Response) => {
+  discoverEsp32Ip(req);
   const { scheduleId } = req.body;
 
   if (!scheduleId) {
@@ -158,4 +177,15 @@ export const completeSchedule = asyncWrapper(async (req: Request, res: Response)
 
   logger.info(`Schedule completed via ESP32`, { scheduleId, petId: schedule.petId });
   sendSuccess(res, { scheduleId, status: 'completed' }, 'Schedule marked as completed');
+});
+
+export const registerFeeder = asyncWrapper(async (req: Request, res: Response) => {
+  const { ip } = req.body;
+  if (!ip) {
+    sendError(res, 400, 'VALIDATION_ERROR', 'ip is required');
+    return;
+  }
+  activeEsp32Ip = ip;
+  logger.info(`[Explicit Register] ESP32 registered with IP: ${activeEsp32Ip}`);
+  sendSuccess(res, { ip: activeEsp32Ip }, 'ESP32 IP registered successfully');
 });
