@@ -1,0 +1,694 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>ioPet - Panel de Comedero</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800&display=swap" rel="stylesheet">
+  <style>
+    *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+    :root {
+      --bg: #f5f3f1;
+      --card-bg: #ffffff;
+      --sidebar: #ffffff;
+      --primary: #f4d21f;
+      --primary-dark: #d4b400;
+      --accent: #f59e0b;
+      --text: #1f1f1f;
+      --text-light: #6b7280;
+      --muted: #9ca3af;
+      --border: #e5e7eb;
+      --hover: #fff7cc;
+      --success: #22c55e;
+      --danger: #ef4444;
+      --warning: #facc15;
+      --info: #38bdf8;
+      --shadow-sm: 0 1px 2px rgba(0,0,0,0.04);
+      --shadow-md: 0 6px 18px rgba(0,0,0,0.08);
+      --shadow-lg: 0 12px 40px rgba(0,0,0,0.12);
+      --radius-sm: 8px;
+      --radius-md: 14px;
+      --radius-lg: 22px;
+      --transition: 0.25s ease;
+      --font: 'Inter', -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif;
+    }
+    html { font-size: 15px; }
+    body {
+      font-family: var(--font);
+      background: var(--bg);
+      color: var(--text);
+      min-height: 100vh;
+      padding: 0;
+    }
+    .app-header {
+      background: var(--card-bg);
+      border-bottom: 1px solid var(--border);
+      padding: 16px 24px;
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      box-shadow: var(--shadow-sm);
+      position: sticky;
+      top: 0;
+      z-index: 100;
+    }
+    .app-header h1 {
+      font-size: 1.15rem;
+      font-weight: 800;
+      display: flex;
+      align-items: center;
+      gap: 10px;
+    }
+    .app-header h1 span { color: var(--primary); }
+    .app-header .subtitle { font-size: 0.75rem; color: var(--text-light); font-weight: 400; }
+    .status-bar {
+      display: flex;
+      align-items: center;
+      gap: 12px;
+      font-size: 0.8rem;
+    }
+    .status-dot {
+      width: 10px;
+      height: 10px;
+      border-radius: 50%;
+      display: inline-block;
+    }
+    .status-dot.online { background: var(--success); box-shadow: 0 0 6px rgba(34,197,94,0.5); }
+    .status-dot.offline { background: var(--danger); }
+    .status-dot.loading { background: var(--warning); animation: pulse 1s infinite; }
+    @keyframes pulse { 0%,100%{opacity:1} 50%{opacity:0.4} }
+    .container {
+      max-width: 1100px;
+      margin: 0 auto;
+      padding: 24px;
+      display: flex;
+      flex-direction: column;
+      gap: 24px;
+    }
+    .card {
+      background: var(--card-bg);
+      border-radius: var(--radius-md);
+      box-shadow: var(--shadow-sm);
+      border: 1px solid var(--border);
+      overflow: hidden;
+    }
+    .card-header {
+      padding: 16px 20px;
+      border-bottom: 1px solid var(--border);
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+    }
+    .card-header h2 {
+      font-size: 0.95rem;
+      font-weight: 700;
+      display: flex;
+      align-items: center;
+      gap: 8px;
+    }
+    .card-body { padding: 20px; }
+    .pet-grid {
+      display: grid;
+      grid-template-columns: repeat(auto-fill, minmax(180px, 1fr));
+      gap: 12px;
+    }
+    .pet-card {
+      border: 2px solid var(--border);
+      border-radius: var(--radius-sm);
+      padding: 16px;
+      cursor: pointer;
+      transition: all var(--transition);
+      text-align: center;
+      background: var(--card-bg);
+    }
+    .pet-card:hover {
+      border-color: var(--primary);
+      background: var(--hover);
+      transform: translateY(-2px);
+    }
+    .pet-card.selected {
+      border-color: var(--primary);
+      background: var(--hover);
+      box-shadow: 0 0 0 3px rgba(244,210,31,0.2);
+    }
+    .pet-card-emoji { font-size: 2.5rem; display: block; margin-bottom: 8px; }
+    .pet-card-name { font-size: 0.95rem; font-weight: 700; }
+    .pet-card-species {
+      font-size: 0.75rem;
+      color: var(--text-light);
+      text-transform: capitalize;
+      background: var(--bg);
+      padding: 2px 10px;
+      border-radius: 20px;
+      display: inline-block;
+      margin-top: 4px;
+    }
+    .selected-pet-info {
+      display: flex;
+      align-items: center;
+      gap: 12px;
+      padding: 12px 16px;
+      background: var(--hover);
+      border-radius: var(--radius-sm);
+      border: 1px solid var(--primary);
+      margin-bottom: 16px;
+    }
+    .selected-pet-info .emoji { font-size: 2rem; }
+    .selected-pet-info .name { font-weight: 700; font-size: 1.05rem; }
+    .selected-pet-info .hint { color: var(--text-light); font-size: 0.8rem; }
+    .feed-actions {
+      display: flex;
+      flex-wrap: wrap;
+      gap: 12px;
+      align-items: flex-end;
+    }
+    .feed-actions .form-field { flex: 1; min-width: 140px; }
+    .btn {
+      display: inline-flex;
+      align-items: center;
+      gap: 6px;
+      padding: 10px 22px;
+      border: 1px solid var(--border);
+      border-radius: var(--radius-sm);
+      font-size: 0.85rem;
+      font-weight: 600;
+      font-family: inherit;
+      background: var(--card-bg);
+      color: var(--text);
+      cursor: pointer;
+      transition: all var(--transition);
+      white-space: nowrap;
+    }
+    .btn:hover { border-color: var(--primary); }
+    .btn:disabled { opacity: 0.5; cursor: not-allowed; }
+    .btn--primary {
+      background: var(--primary);
+      border-color: var(--primary);
+      color: var(--text);
+    }
+    .btn--primary:hover { background: var(--primary-dark); border-color: var(--primary-dark); }
+    .btn--danger {
+      background: var(--danger);
+      border-color: var(--danger);
+      color: #fff;
+    }
+    .btn--danger:hover { opacity: 0.9; }
+    .btn--sm { padding: 6px 12px; font-size: 0.78rem; }
+    .form-field {
+      display: flex;
+      flex-direction: column;
+      gap: 5px;
+    }
+    .form-field label {
+      font-size: 0.78rem;
+      font-weight: 600;
+      color: var(--text);
+    }
+    .form-field input,
+    .form-field select {
+      padding: 9px 12px;
+      border: 1px solid var(--border);
+      border-radius: var(--radius-sm);
+      font-size: 0.85rem;
+      font-family: inherit;
+      background: var(--bg);
+      color: var(--text);
+      transition: border-color var(--transition);
+      outline: none;
+    }
+    .form-field input:focus,
+    .form-field select:focus {
+      border-color: var(--primary);
+      box-shadow: 0 0 0 3px rgba(244,210,31,0.1);
+    }
+    .form-row {
+      display: flex;
+      gap: 12px;
+      flex-wrap: wrap;
+    }
+    .form-row .form-field { flex: 1; min-width: 120px; }
+    .history-table {
+      width: 100%;
+      border-collapse: collapse;
+      font-size: 0.82rem;
+    }
+    .history-table th {
+      text-align: left;
+      padding: 10px 12px;
+      font-weight: 600;
+      color: var(--text-light);
+      border-bottom: 2px solid var(--border);
+      font-size: 0.75rem;
+      text-transform: uppercase;
+      letter-spacing: 0.03em;
+    }
+    .history-table td {
+      padding: 10px 12px;
+      border-bottom: 1px solid var(--border);
+    }
+    .history-table tr:hover td { background: var(--bg); }
+    .badge {
+      display: inline-block;
+      padding: 2px 10px;
+      border-radius: 20px;
+      font-size: 0.72rem;
+      font-weight: 600;
+    }
+    .badge--completed { background: #dcfce7; color: #166534; }
+    .badge--pending { background: #fef9c3; color: #854d0e; }
+    .badge--missed { background: #fee2e2; color: #991b1b; }
+    .badge--manual { background: #dbeafe; color: #1e40af; }
+    .badge--programmed { background: #f3e8ff; color: #6b21a8; }
+    .schedule-list {
+      display: flex;
+      flex-direction: column;
+      gap: 8px;
+      margin-top: 12px;
+    }
+    .schedule-item {
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      padding: 10px 14px;
+      background: var(--bg);
+      border-radius: var(--radius-sm);
+      border: 1px solid var(--border);
+    }
+    .schedule-item .time { font-weight: 700; font-size: 1rem; }
+    .schedule-item .meta { font-size: 0.78rem; color: var(--text-light); }
+    .empty-state {
+      text-align: center;
+      padding: 40px 20px;
+      color: var(--text-light);
+    }
+    .empty-state .icon { font-size: 2.5rem; display: block; margin-bottom: 12px; }
+    .toast {
+      position: fixed;
+      bottom: 24px;
+      right: 24px;
+      padding: 12px 20px;
+      border-radius: var(--radius-sm);
+      color: #fff;
+      font-weight: 600;
+      font-size: 0.85rem;
+      box-shadow: var(--shadow-lg);
+      z-index: 999;
+      transform: translateY(120px);
+      opacity: 0;
+      transition: all 0.3s ease;
+    }
+    .toast.show { transform: translateY(0); opacity: 1; }
+    .toast--success { background: var(--success); }
+    .toast--error { background: var(--danger); }
+    .loading-spinner {
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      padding: 40px;
+    }
+    .spinner {
+      width: 32px;
+      height: 32px;
+      border: 3px solid var(--border);
+      border-top-color: var(--primary);
+      border-radius: 50%;
+      animation: spin 0.7s linear infinite;
+    }
+    @keyframes spin { to { transform: rotate(360deg); } }
+    .section-empty { text-align: center; padding: 24px; color: var(--text-light); font-size: 0.85rem; }
+    @media (max-width: 600px) {
+      .container { padding: 12px; gap: 16px; }
+      .app-header { padding: 12px 16px; flex-wrap: wrap; gap: 8px; }
+      .app-header h1 { font-size: 1rem; }
+      .pet-grid { grid-template-columns: repeat(auto-fill, minmax(140px, 1fr)); }
+      .feed-actions { flex-direction: column; }
+      .feed-actions .form-field { min-width: 100%; }
+    }
+  </style>
+</head>
+<body>
+  <header class="app-header">
+    <div>
+      <h1><span>io</span>Pet &mdash; Panel de Comedero</h1>
+      <div class="subtitle">Control manual y automático</div>
+    </div>
+    <div class="status-bar">
+      <span class="status-dot loading" id="statusDot"></span>
+      <span id="statusText">Verificando...</span>
+      <span style="color:var(--muted)">|</span>
+      <span id="clock" style="font-weight:600">--:--</span>
+    </div>
+  </header>
+
+  <div class="container">
+    <div class="card">
+      <div class="card-header">
+        <h2>&#128062; Seleccionar mascota</h2>
+        <span id="petCount" style="font-size:0.78rem;color:var(--text-light)">Cargando...</span>
+      </div>
+      <div class="card-body">
+        <div class="pet-grid" id="petGrid"></div>
+      </div>
+    </div>
+
+    <div class="card">
+      <div class="card-header">
+        <h2>&#127858; Alimentar ahora</h2>
+      </div>
+      <div class="card-body">
+        <div id="selectedPetInfo" class="selected-pet-info" style="display:none">
+          <span class="emoji" id="selEmoji">&#128062;</span>
+          <div>
+            <div class="name" id="selName">---</div>
+            <div class="hint">Esta mascota recibirá la comida</div>
+          </div>
+        </div>
+        <div id="noPetSelected" class="section-empty">
+          Selecciona una mascota arriba para alimentar
+        </div>
+        <div class="feed-actions" id="feedActions" style="display:none">
+          <div class="form-field">
+            <label>Porción</label>
+            <select id="portionSelect">
+              <option value="50g">50g</option>
+              <option value="100g" selected>100g</option>
+              <option value="150g">150g</option>
+              <option value="200g">200g</option>
+            </select>
+          </div>
+          <div class="form-field">
+            <label>Tipo de comida</label>
+            <select id="foodTypeSelect">
+              <option value="Kibble">Kibble</option>
+              <option value="Premium Kibble">Premium Kibble</option>
+              <option value="Wet food">Wet food</option>
+              <option value="Balanced">Balanced</option>
+            </select>
+          </div>
+          <button class="btn btn--primary" id="feedBtn" disabled>&#127858; ALIMENTAR</button>
+        </div>
+        <div id="feedResult" style="margin-top:12px;font-size:0.85rem;color:var(--success);display:none"></div>
+      </div>
+    </div>
+
+    <div class="card">
+      <div class="card-header">
+        <h2>&#128197; Programar alimentación</h2>
+      </div>
+      <div class="card-body">
+        <div class="form-row">
+          <div class="form-field">
+            <label>Hora</label>
+            <input type="time" id="scheduleTime" value="08:00">
+          </div>
+          <div class="form-field">
+            <label>Porción</label>
+            <select id="schedulePortion">
+              <option value="50g">50g</option>
+              <option value="100g" selected>100g</option>
+              <option value="150g">150g</option>
+              <option value="200g">200g</option>
+            </select>
+          </div>
+          <div class="form-field">
+            <label>Tipo</label>
+            <select id="scheduleFoodType">
+              <option value="Kibble">Kibble</option>
+              <option value="Premium Kibble">Premium Kibble</option>
+              <option value="Wet food">Wet food</option>
+              <option value="Balanced">Balanced</option>
+            </select>
+          </div>
+          <div style="display:flex;align-items:flex-end">
+            <button class="btn btn--primary" id="scheduleBtn">&#128197; PROGRAMAR</button>
+          </div>
+        </div>
+        <div id="scheduleResult" style="margin-top:12px;font-size:0.85rem;display:none"></div>
+        <div class="schedule-list" id="scheduleList"></div>
+      </div>
+    </div>
+
+    <div class="card">
+      <div class="card-header">
+        <h2>&#128214; Comidas recientes</h2>
+        <button class="btn btn--sm" id="refreshHistoryBtn">&#8635; Actualizar</button>
+      </div>
+      <div class="card-body" id="historyContainer">
+        <div class="loading-spinner"><div class="spinner"></div></div>
+      </div>
+    </div>
+  </div>
+
+  <div class="toast" id="toast"></div>
+
+  <script>
+    const API = '/api/v1';
+    let selectedPetId = null;
+    let pets = [];
+    const speciesEmoji = { dog:'🐶', cat:'🐱', bird:'🐦', fish:'🐟', other:'🐾' };
+
+    function $(id) { return document.getElementById(id); }
+    function showToast(msg, type) {
+      const t = $('toast');
+      t.textContent = msg;
+      t.className = 'toast toast--' + type + ' show';
+      setTimeout(() => t.classList.remove('show'), 3500);
+    }
+
+    function updateClock() {
+      const now = new Date();
+      $('clock').textContent = now.toLocaleTimeString('es-ES', { hour:'2-digit', minute:'2-digit' });
+    }
+    setInterval(updateClock, 10000);
+    updateClock();
+
+    async function checkStatus() {
+      const dot = $('statusDot');
+      const txt = $('statusText');
+      dot.className = 'status-dot loading';
+      txt.textContent = 'Verificando...';
+      try {
+        const r = await fetch(API + '/feeder/status');
+        const d = await r.json();
+        if (d.data.online) {
+          dot.className = 'status-dot online';
+          txt.textContent = 'ESP32 En línea';
+        } else {
+          dot.className = 'status-dot offline';
+          txt.textContent = 'ESP32 Desconectado';
+        }
+      } catch {
+        dot.className = 'status-dot offline';
+        txt.textContent = 'Error de conexión';
+      }
+    }
+    setInterval(checkStatus, 15000);
+    checkStatus();
+
+    async function loadPets() {
+      try {
+        const r = await fetch(API + '/pets');
+        const d = await r.json();
+        pets = d.data || [];
+        renderPets();
+        $('petCount').textContent = pets.length + ' mascota' + (pets.length !== 1 ? 's' : '');
+      } catch {
+        $('petGrid').innerHTML = '<div class="section-empty">Error al cargar mascotas</div>';
+        $('petCount').textContent = 'Error';
+      }
+    }
+
+    function renderPets() {
+      const grid = $('petGrid');
+      if (!pets.length) {
+        grid.innerHTML = '<div class="section-empty">No hay mascotas registradas</div>';
+        return;
+      }
+      grid.innerHTML = pets.map(p => `
+        <div class="pet-card${selectedPetId === p.id ? ' selected' : ''}" data-id="${p.id}">
+          <span class="pet-card-emoji">${speciesEmoji[p.species] || '🐾'}</span>
+          <div class="pet-card-name">${p.name}</div>
+          <span class="pet-card-species">${p.species}</span>
+        </div>
+      `).join('');
+
+      grid.querySelectorAll('.pet-card').forEach(el => {
+        el.addEventListener('click', () => {
+          selectPet(el.dataset.id);
+        });
+      });
+    }
+
+    function selectPet(id) {
+      selectedPetId = id;
+      renderPets();
+      const pet = pets.find(p => p.id === id);
+      if (pet) {
+        $('selectedPetInfo').style.display = 'flex';
+        $('noPetSelected').style.display = 'none';
+        $('feedActions').style.display = 'flex';
+        $('feedBtn').disabled = false;
+        $('selEmoji').textContent = speciesEmoji[pet.species] || '🐾';
+        $('selName').textContent = pet.name;
+      }
+    }
+
+    $('feedBtn').addEventListener('click', async () => {
+      if (!selectedPetId) return;
+      const btn = $('feedBtn');
+      btn.disabled = true;
+      btn.textContent = '⏳ Alimentando...';
+      $('feedResult').style.display = 'none';
+
+      try {
+        const r = await fetch(API + '/feeder/feed-now', {
+          method: 'POST',
+          headers: { 'Content-Type': 'application/json' },
+          body: JSON.stringify({
+            petId: selectedPetId,
+            portionSize: $('portionSelect').value,
+            foodType: $('foodTypeSelect').value
+          })
+        });
+        const d = await r.json();
+        if (d.success) {
+          $('feedResult').textContent = '✅ ' + d.message;
+          $('feedResult').style.color = 'var(--success)';
+          showToast('✅ Comida servida correctamente', 'success');
+          loadHistory();
+        } else {
+          $('feedResult').textContent = '❌ ' + (d.message || 'Error al alimentar');
+          $('feedResult').style.color = 'var(--danger)';
+          showToast('❌ ' + (d.message || 'Error'), 'error');
+        }
+      } catch (e) {
+        $('feedResult').textContent = '❌ Error de conexión';
+        $('feedResult').style.color = 'var(--danger)';
+        showToast('❌ Error de conexión', 'error');
+      }
+      $('feedResult').style.display = 'block';
+      btn.disabled = false;
+      btn.textContent = '🍲 ALIMENTAR';
+    });
+
+    $('scheduleBtn').addEventListener('click', async () => {
+      if (!selectedPetId) {
+        showToast('Selecciona una mascota primero', 'error');
+        return;
+      }
+      const btn = $('scheduleBtn');
+      btn.disabled = true;
+      btn.textContent = '⏳ Programando...';
+      $('scheduleResult').style.display = 'none';
+
+      try {
+        const r = await fetch(API + '/feeder/schedule', {
+          method: 'POST',
+          headers: { 'Content-Type': 'application/json' },
+          body: JSON.stringify({
+            petId: selectedPetId,
+            scheduledTime: $('scheduleTime').value,
+            portionSize: $('schedulePortion').value,
+            foodType: $('scheduleFoodType').value
+          })
+        });
+        const d = await r.json();
+        if (d.success) {
+          $('scheduleResult').textContent = '✅ ' + d.message;
+          $('scheduleResult').style.color = 'var(--success)';
+          showToast('✅ Horario creado', 'success');
+          loadHistory();
+        } else {
+          $('scheduleResult').textContent = '❌ ' + (d.message || 'Error al programar');
+          $('scheduleResult').style.color = 'var(--danger)';
+        }
+      } catch {
+        $('scheduleResult').textContent = '❌ Error de conexión';
+        $('scheduleResult').style.color = 'var(--danger)';
+      }
+      $('scheduleResult').style.display = 'block';
+      btn.disabled = false;
+      btn.textContent = '📅 PROGRAMAR';
+    });
+
+    async function loadHistory() {
+      const container = $('historyContainer');
+      container.innerHTML = '<div class="loading-spinner"><div class="spinner"></div></div>';
+      try {
+        const r = await fetch(API + '/feeder/history');
+        const d = await r.json();
+        const schedules = d.data || [];
+        if (!schedules.length) {
+          container.innerHTML = '<div class="section-empty">Aún no hay registros de alimentación</div>';
+          return;
+        }
+        const rows = schedules.map(s => {
+          const statusClass = 'badge--' + (s.status || 'pending');
+          const typeClass = 'badge--' + (s.distributionType || 'manual');
+          const time = s.scheduledTime ? new Date(s.scheduledTime).toLocaleString('es-ES', {
+            month:'short', day:'numeric', hour:'2-digit', minute:'2-digit'
+          }) : s.scheduledTime;
+          return `
+            <tr>
+              <td>${speciesEmoji[s.petSpecies] || '🐾'} ${s.petName}</td>
+              <td>${time}</td>
+              <td>${s.portionSize || '---'}</td>
+              <td><span class="badge ${typeClass}">${s.distributionType}</span></td>
+              <td><span class="badge ${statusClass}">${s.status}</span></td>
+            </tr>
+          `;
+        }).join('');
+        container.innerHTML = `
+          <table class="history-table">
+            <thead><tr>
+              <th>Mascota</th>
+              <th>Hora</th>
+              <th>Porción</th>
+              <th>Tipo</th>
+              <th>Estado</th>
+            </tr></thead>
+            <tbody>${rows}</tbody>
+          </table>
+        `;
+      } catch {
+        container.innerHTML = '<div class="section-empty">Error al cargar historial</div>';
+      }
+    }
+
+    async function loadSchedules() {
+      const list = $('scheduleList');
+      try {
+        const r = await fetch(API + '/feeder/schedules');
+        const d = await r.json();
+        const schedules = d.data || [];
+        if (!schedules.length) {
+          list.innerHTML = '<div class="section-empty">No hay horarios activos</div>';
+          return;
+        }
+        list.innerHTML = schedules.map(s => `
+          <div class="schedule-item">
+            <div>
+              <div class="time">${s.scheduledTime}</div>
+              <div class="meta">${speciesEmoji[s.petSpecies] || '🐾'} ${s.petName || '---'} &middot; ${s.portionSize || '100g'}</div>
+            </div>
+            <span class="badge badge--pending">programado</span>
+          </div>
+        `).join('');
+      } catch {
+        list.innerHTML = '<div class="section-empty">Error al cargar horarios</div>';
+      }
+    }
+
+    $('refreshHistoryBtn').addEventListener('click', () => {
+      loadHistory();
+      loadSchedules();
+      checkStatus();
+    });
+
+    loadPets();
+    loadHistory();
+    loadSchedules();
+  </script>
+</body>
+</html>

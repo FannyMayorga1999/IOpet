@@ -2,17 +2,19 @@ import express from 'express';
 import cors from 'cors';
 import helmet from 'helmet';
 import morgan from 'morgan';
+import path from 'path';
 import routes from './routes';
 import { errorHandler } from './middlewares/errorHandler';
 import { sendError } from './utils/response';
 
 const app = express();
 
-app.use(helmet());
+app.use(helmet({ contentSecurityPolicy: false }));
 app.use(cors());
 app.use(morgan('dev'));
 app.use(express.json());
 app.use(express.urlencoded({ extended: true }));
+app.use(express.static(path.resolve(__dirname, '../public')));
 
 app.use('/api/v1', routes);
 

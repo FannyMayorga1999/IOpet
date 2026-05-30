@@ -22,8 +22,8 @@ FIREBASE_URL = "https://iopet-18608-default-rtdb.firebaseio.com/horarios.json"
 # =========================
 # WIFI
 # =========================
-ssid = "Pixel 9 FEMS"
-password = "12345678"
+ssid = "Xtrim_Mayorga"
+password = "Mayorga0208."
 
 wlan = network.WLAN(network.STA_IF)
 wlan.active(True)

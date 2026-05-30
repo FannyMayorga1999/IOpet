@@ -1,3 +1,4 @@
+import './configs/environment';
 import app from './app';
 import { env } from './configs/environment';
 import { initializeFirebase } from './configs/firebase';
