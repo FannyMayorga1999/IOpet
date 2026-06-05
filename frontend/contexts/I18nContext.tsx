@@ -39,18 +39,15 @@ function interpolate(text: string, params?: Record<string, string | number>): st
 }
 
 export function I18nProvider({ children }: { children: ReactNode }) {
-  const [locale, setLocaleState] = useState<Locale>(defaultLocale);
+  const [locale, setLocaleState] = useState<Locale>('es');
 
   useEffect(() => {
-    const stored = localStorage.getItem('i18n-locale') as Locale | null;
-    if (stored && locales.includes(stored)) {
-      setLocaleState(stored);
-    }
+    localStorage.setItem('i18n-locale', 'es');
   }, []);
 
   const setLocale = useCallback((newLocale: Locale) => {
-    setLocaleState(newLocale);
-    localStorage.setItem('i18n-locale', newLocale);
+    setLocaleState('es');
+    localStorage.setItem('i18n-locale', 'es');
   }, []);
 
   const t = useCallback(

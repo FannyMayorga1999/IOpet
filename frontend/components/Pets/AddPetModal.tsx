@@ -28,6 +28,9 @@ export function AddPetModal({ isOpen, onClose, onSubmit }: AddPetModalProps) {
   const [submitting, setSubmitting] = useState(false);
   const { data: breeds, loading: loadingBreeds } = useBreedsBySpecies(species);
 
+  const today = new Date();
+  const todayString = `${today.getFullYear()}-${String(today.getMonth() + 1).padStart(2, '0')}-${String(today.getDate()).padStart(2, '0')}`;
+
   if (!isOpen) return null;
 
   const handleSubmit = async (e: React.FormEvent) => {
@@ -95,7 +98,7 @@ export function AddPetModal({ isOpen, onClose, onSubmit }: AddPetModalProps) {
           </label>
           <label className="form-field">
             <span>{t('pets.form.birthDate')}</span>
-            <input type="date" value={birthDate} onChange={(e) => setBirthDate(e.target.value)} />
+            <input type="date" max={todayString} value={birthDate} onChange={(e) => setBirthDate(e.target.value)} />
           </label>
           <label className="form-field">
             <span>{t('pets.form.weight')}</span>

@@ -39,12 +39,23 @@ const statusIcon: Record<FeedingSchedule['status'], string> = {
 
 const speciesEmoji: Record<string, string> = { dog:'🐶', cat:'🐱', bird:'🐦', fish:'🐟', other:'🐾' };
 
+const statusTranslations: Record<FeedingSchedule['status'], string> = {
+  completed: 'Completada',
+  pending: 'Pendiente',
+  missed: 'Perdida',
+};
+
+const typeTranslations: Record<DistributionType, string> = {
+  manual: 'Manual',
+  programmed: 'Programada',
+};
+
 function StatusBadge({ status }: { status: FeedingSchedule['status'] }) {
-  return <span className={`status-badge ${status}`}>{status}</span>;
+  return <span className={`status-badge ${status}`}>{statusTranslations[status] || status}</span>;
 }
 
 function TypeBadge({ type }: { type: DistributionType }) {
-  return <span className={`type-badge ${type}`}>{type}</span>;
+  return <span className={`type-badge ${type}`}>{typeTranslations[type] || type}</span>;
 }
 
 export default function HistoryPage() {

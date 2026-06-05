@@ -47,10 +47,12 @@ export default function DashboardPage() {
             <h1>{t('dashboard.title')}</h1>
             <p>{t('dashboard.welcome')}</p>
           </div>
+          {/* 
           <div className="dashboard-period">
             <span>This Month</span>
             <ChevronDown />
           </div>
+          */}
         </div>
 
         {/* Stats Grid */}
@@ -116,7 +118,7 @@ export default function DashboardPage() {
             </div>
           </div>
 
-          <FeedingChart schedules={schedules ?? []} />
+          {/* <FeedingChart schedules={schedules ?? []} /> */}
         </div>
         {/* Bottom Grid */}
         {/* <div className={m('bottom-grid')}>

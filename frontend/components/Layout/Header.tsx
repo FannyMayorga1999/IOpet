@@ -53,6 +53,8 @@ export function Header({ onMenuToggle }: HeaderProps) {
         </div>
       </div>
       <div className="header-right">
+        {/* Botón de cambio de idioma comentado para que quede en español siempre */}
+        {/* 
         <button
           className={m('header-lang-btn')}
           onClick={() => setLocale(nextLocale)}
@@ -60,10 +62,14 @@ export function Header({ onMenuToggle }: HeaderProps) {
         >
           {nextLocale.toUpperCase()}
         </button>
+        */}
+        {/* Botón de notificación comentado */}
+        {/* 
         <div className="header-icon-btn">
           <BellIcon />
           <span className="notif-dot" />
         </div>
+        */}
         <div className="header-avatar">AD</div>
       </div>
     </header>

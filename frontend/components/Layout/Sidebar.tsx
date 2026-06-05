@@ -53,7 +53,7 @@ export function Sidebar({ isOpen, onClose }: SidebarProps) {
   const isMobile = useMobile();
   const { t } = useTranslation();
 
-  const [extrasOpen, setExtrasOpen] = useState(false);
+  const [extrasOpen, setExtrasOpen] = useState(true);
   const m = (cls: string) => (isMobile ? `${cls} ${cls}__mobile` : cls);
 
   return (
